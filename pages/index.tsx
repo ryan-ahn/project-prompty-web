@@ -1,17 +1,26 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import { Inter } from 'next/font/google';
-import styles from '@/styles/Home.module.css';
+/**
+ * Author : Ryan
+ * Date : 2023-04-01
+ * Desc : index
+ */
 
-const inter = Inter({ subsets: ['latin'] });
+import { META_COMMON, META_PAGE } from '@containers/meta';
+import SEO from '@components/seo';
+import Main from '@components/main';
 
-export default function Home() {
+export default function index() {
+  // Value
+  const meta = {
+    page_title: META_PAGE.main.page_title,
+    page_description: META_COMMON.site_description,
+    page_cannonical_link: META_PAGE.main.page_cannonical_link,
+    page_image: META_COMMON.site_image,
+  };
+
   return (
-    <div>
-      <p>hihi</p>
-      <h1>안녕하세요. 종호입니다😎</h1>
-      <h1>안녕하세요. 지수입니다🤗</h1>
-      <h1>안녕하세요. 상혁입니다🫢</h1>
-    </div>
+    <SEO meta={meta}>
+      1
+      <Main />
+    </SEO>
   );
 }
