@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-prompty-dev-173318-authRole",
+      "UnauthRoleArn": "arn:aws:iam::090159585626:role/amplify-prompty-dev-173318-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::090159585626:role/amplify-prompty-dev-173318-authRole",
+      "Region": "ap-northeast-2",
+      "DeploymentBucketName": "amplify-prompty-dev-173318-deployment",
+      "UnauthRoleName": "amplify-prompty-dev-173318-unauthRole",
+      "StackName": "amplify-prompty-dev-173318",
+      "StackId": "arn:aws:cloudformation:ap-northeast-2:090159585626:stack/amplify-prompty-dev-173318/b1052440-cf9e-11ed-8272-0237cf56b57a",
+      "AmplifyAppId": "d3r47bjstuu8lm"
+    },
+    "categories": {
+      "api": {
+        "prompty": {}
+      }
+    }
+  }
+}
