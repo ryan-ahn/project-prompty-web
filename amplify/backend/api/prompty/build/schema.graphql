@@ -1,0 +1,234 @@
+
+type Prompt {
+  id: ID!
+  prompt: String!
+  answer: String!
+  list: [String]!
+  category: Int!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelPromptConnection {
+  items: [Prompt]!
+  nextToken: String
+}
+
+input ModelPromptFilterInput {
+  id: ModelIDInput
+  prompt: ModelStringInput
+  answer: ModelStringInput
+  list: ModelStringInput
+  category: ModelIntInput
+  and: [ModelPromptFilterInput]
+  or: [ModelPromptFilterInput]
+  not: ModelPromptFilterInput
+}
+
+type Query {
+  getPrompt(id: ID!): Prompt
+  listPrompts(filter: ModelPromptFilterInput, limit: Int, nextToken: String): ModelPromptConnection
+}
+
+input ModelPromptConditionInput {
+  prompt: ModelStringInput
+  answer: ModelStringInput
+  list: ModelStringInput
+  category: ModelIntInput
+  and: [ModelPromptConditionInput]
+  or: [ModelPromptConditionInput]
+  not: ModelPromptConditionInput
+}
+
+input CreatePromptInput {
+  id: ID
+  prompt: String!
+  answer: String!
+  list: [String]!
+  category: Int!
+}
+
+input UpdatePromptInput {
+  id: ID!
+  prompt: String
+  answer: String
+  list: [String]
+  category: Int
+}
+
+input DeletePromptInput {
+  id: ID!
+}
+
+type Mutation {
+  createPrompt(input: CreatePromptInput!, condition: ModelPromptConditionInput): Prompt
+  updatePrompt(input: UpdatePromptInput!, condition: ModelPromptConditionInput): Prompt
+  deletePrompt(input: DeletePromptInput!, condition: ModelPromptConditionInput): Prompt
+}
+
+input ModelSubscriptionPromptFilterInput {
+  id: ModelSubscriptionIDInput
+  prompt: ModelSubscriptionStringInput
+  answer: ModelSubscriptionStringInput
+  list: ModelSubscriptionStringInput
+  category: ModelSubscriptionIntInput
+  and: [ModelSubscriptionPromptFilterInput]
+  or: [ModelSubscriptionPromptFilterInput]
+}
+
+type Subscription {
+  onCreatePrompt(filter: ModelSubscriptionPromptFilterInput): Prompt @aws_subscribe(mutations: ["createPrompt"])
+  onUpdatePrompt(filter: ModelSubscriptionPromptFilterInput): Prompt @aws_subscribe(mutations: ["updatePrompt"])
+  onDeletePrompt(filter: ModelSubscriptionPromptFilterInput): Prompt @aws_subscribe(mutations: ["deletePrompt"])
+}
+
