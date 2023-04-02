@@ -70,6 +70,10 @@ export default function index({ search }: TProps) {
   }, []);
 
   useEffect(() => {
+    window.scrollTo({ top: 10000, behavior: 'smooth' });
+  }, [isLoadingData, isLoadingQuestion]);
+
+  useEffect(() => {
     if (search === 'sample1') {
       dispatch({
         type: SET_STATIC_DATA,
