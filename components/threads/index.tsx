@@ -70,7 +70,9 @@ export default function index({ search }: TProps) {
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 10000, behavior: 'smooth' });
+    if (isLoadingData || isLoadingQuestion) {
+      window.scrollTo({ top: 10000, behavior: 'smooth' });
+    }
   }, [isLoadingData, isLoadingQuestion]);
 
   useEffect(() => {
