@@ -79,4 +79,26 @@ export const GlobalStyle = createGlobalStyle`
         opacity: 0;
     }
   }
+  @keyframes skeleton-ui{
+    0%{
+      background-color: rgba(185, 185, 185, 0.1);
+    }
+    50%{
+      background-color: rgba(185, 185, 185, 0.3);
+    }
+    100%{
+      background-color: rgba(185, 185, 185, 0.1);
+    }
+  }
+  @-webkit-keyframes skeleton-ui{
+    0%{
+      background-color: rgba(185, 185, 185, 0.1);
+    }
+    50%{
+      background-color: rgba(185, 185, 185, 0.3);
+    }
+    100%{
+      background-color: rgba(185, 185, 185, 0.1);
+    }
+  }
 `;

@@ -1,35 +1,64 @@
+import { TPromptList } from '@libs/models/types';
 import { createReducer, ActionType } from 'typesafe-actions';
 import * as actions from './actions';
 
 export type Actions = ActionType<typeof actions>;
 
 export type TMainReducer = {
-  response: null | string;
-  isLoading: boolean;
+  data: TPromptList | null;
+  addQuestion: string | null;
+  isLoadingData: boolean;
+  isLoadingQuestion: boolean;
 };
 
 export const initialState: TMainReducer = {
-  response: null,
-  isLoading: false,
+  data: null,
+  addQuestion: null,
+  isLoadingData: false,
+  isLoadingQuestion: false,
 };
 
 const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
-  [actions.CLOSE_GPT]: state => ({
+  [actions.INIT_THREAD]: state => ({
     ...state,
-    response: null,
+    data: null,
+    addQuestion: null,
+    isLoadingData: false,
+    isLoadingQuestion: false,
   }),
-  [actions.GET_TEST_REQUEST]: state => ({
+
+  [actions.SET_STATIC_DATA]: (state, action) => ({
     ...state,
-    isLoading: true,
+    data: action.payload.promptList,
+    addQuestion: action.payload.addQuestion,
   }),
-  [actions.GET_TEST_SUCCESS]: (state, action) => ({
+
+  [actions.GET_DATA_REQUEST]: state => ({
     ...state,
-    response: action.payload,
-    isLoading: false,
+    isLoadingData: true,
   }),
-  [actions.GET_TEST_FAILURE]: state => ({
+  [actions.GET_DATA_SUCCESS]: (state, action) => ({
     ...state,
-    isLoading: false,
+    data: state.data !== null ? [...state.data!, action.payload] : [action.payload],
+    isLoadingData: false,
+  }),
+  [actions.GET_DATA_FAILURE]: state => ({
+    ...state,
+    isLoadingData: false,
+  }),
+
+  [actions.GET_QUESTION_REQUEST]: state => ({
+    ...state,
+    isLoadingQuestion: true,
+  }),
+  [actions.GET_QUESTION_SUCCESS]: (state, action) => ({
+    ...state,
+    addQuestion: action.payload,
+    isLoadingQuestion: false,
+  }),
+  [actions.GET_QUESTION_FAILURE]: state => ({
+    ...state,
+    isLoadingQuestion: false,
   }),
 });
 

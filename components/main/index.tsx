@@ -4,11 +4,13 @@
  * Desc : index
  */
 
-import { DUMMY } from '@containers/data';
-import Link from 'next/link';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
+import Link from 'next/link';
+import { DUMMY } from '@containers/data';
+import { useDispatch } from 'react-redux';
+import { INIT_THREAD } from '@libs/redux/modules/main/actions';
 
 type TFocus = {
   attrFocus: boolean;
@@ -26,6 +28,7 @@ export default function Mainindex() {
   const inputRef = useRef<HTMLInputElement>(null);
   // Hooks
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const onChangeInputText = useCallback(
     (value: string) => {
@@ -34,29 +37,46 @@ export default function Mainindex() {
     [input],
   );
 
-  const onClickRouteToThreads = useCallback(() => {
-    router.push('/threads');
+  const onClickRouteToThreads = useCallback((id: number) => {
+    router.push(`/threads/?search=sample${id + 1}`);
   }, []);
 
-  useLayoutEffect(() => {
+  const onClickSearch = useCallback(() => {
+    router.push(`/threads/?search=${input}`);
+  }, [input]);
+
+  const onKeyPressEnter = useCallback(
+    (e: any) => {
+      if (e.key === 'Enter') {
+        router.push(`/threads/?search=${input}`);
+      }
+    },
+    [input],
+  );
+
+  useEffect(() => {
     if (inputRef !== null && inputRef.current !== null) {
       inputRef.current.focus();
     }
   }, []);
 
+  useEffect(() => {
+    dispatch({ type: INIT_THREAD });
+  }, []);
+
   // Render Item
   const renderItem = useCallback((data: any) => {
     return (
-      <ItemWrapper onClick={onClickRouteToThreads}>
-        <h2>{data[0].prompt}</h2>
-        <p>{data[0].answer}</p>
+      <ItemWrapper onClick={() => onClickRouteToThreads(data.id)}>
+        <h2>{data.promptList[0].prompt}</h2>
+        <p>{data.promptList[0].answer}</p>
       </ItemWrapper>
     );
   }, []);
 
   // Render List
   const renderList = useCallback(() => {
-    return DUMMY.map(item => <div key={item.id}>{renderItem(item.promptList)}</div>);
+    return DUMMY.map(item => <div key={item.id}>{renderItem(item)}</div>);
   }, []);
 
   return (
@@ -79,9 +99,10 @@ export default function Mainindex() {
               attrFocus={focus}
               placeholder="무엇이든 물어보세요!"
               onChange={e => onChangeInputText(e.target.value)}
+              onKeyUp={onKeyPressEnter}
             />
             <ButtonBox>
-              <img src={'static/arrow-enter.png'} alt="enter" />
+              <img src={'static/arrow-enter.png'} alt="enter" onClick={onClickSearch} />
             </ButtonBox>
             <CloseBox attrVisibility={input.length > 0} onClick={() => setInput('')}>
               <img src={'static/button_close.png'} alt="close" />
@@ -174,9 +195,6 @@ const TitleBox = styled.div`
 const SearchBox = styled.div`
   position: relative;
   ${({ theme }) => theme.boxSet('100%', '70px', '0px')};
-  & > div {
-    ${({ theme }) => theme.backgroundSet('/static/', 'contain')};
-  }
 `;
 
 const InputBox = styled.input<TFocus>`
