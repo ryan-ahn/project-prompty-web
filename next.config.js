@@ -3,6 +3,7 @@ require('dotenv').config();
 module.exports = {
   env: {
     HOST: process.env.NEXT_PUBLIC_HOST,
+    GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     CHAT_GPT_KEY: process.env.CHAT_GPT_KEY,
   },
   eslint: {
