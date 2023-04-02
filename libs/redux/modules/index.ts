@@ -25,8 +25,8 @@ interface IState {
 
 const rootReducer = (state: IState | undefined, action: any): CombinedState<IState> => {
   switch (action.type) {
-    case HYDRATE:
-      return { ...state, ...action.payload };
+    // case HYDRATE:
+    //   return { ...state, ...action.payload };
     default: {
       const combineReducer = combineReducers({
         user: user.reducer,

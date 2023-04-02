@@ -8,7 +8,10 @@ import { META_COMMON, META_PAGE } from '@containers/meta';
 import SEO from '@components/seo';
 import Threads from '@components/threads';
 
-export default function ThreadsPage() {
+export type TProps = {
+  search: string | null;
+};
+export default function ThreadsPage({ search }: TProps) {
   // Value
   const meta = {
     page_title: META_PAGE.threads.page_title,
@@ -19,7 +22,16 @@ export default function ThreadsPage() {
 
   return (
     <SEO meta={meta}>
-      <Threads />
+      <Threads search={search} />
     </SEO>
   );
 }
+
+export const getServerSideProps = async (context: any) => {
+  const search = context.query.search ? context.query.search : null;
+  return {
+    props: {
+      search: search,
+    },
+  };
+};

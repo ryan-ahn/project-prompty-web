@@ -14,7 +14,7 @@ export interface SagaStore extends Store {
 }
 //middle ware
 const bindMiddleWare = (middleware: any) => {
-  if (process.env.NEXT_PUBLIC_HOST !== 'https://www.prompty.im/') {
+  if (process.env.NODE_ENV !== 'production') {
     const { composeWithDevTools } = require('redux-devtools-extension');
     return composeWithDevTools(applyMiddleware(...middleware));
   }
