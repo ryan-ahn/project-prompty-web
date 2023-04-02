@@ -11,33 +11,15 @@ import { GlobalStyle } from '@styles/global';
 import { wrapper } from '@libs/redux/store';
 import theme from '@styles/theme';
 import awsExoprts from '../src/aws-exports';
-import MobileLayout from '@components/layout/Mobile';
-import DesktopLayout from '@components/layout/Desktop';
-import { useCallback } from 'react';
 Amplify.configure(awsExoprts);
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const renderLayout = useCallback(() => {
-    switch (pageProps.userDevice) {
-      case 'mobile':
-        return (
-          <MobileLayout>
-            <Component {...pageProps} />
-          </MobileLayout>
-        );
-      case 'desktop':
-        return (
-          <DesktopLayout>
-            <Component {...pageProps} />
-          </DesktopLayout>
-        );
-    }
-  }, [pageProps]);
-
   return (
     <>
       <GlobalStyle />
-      <ThemeProvider theme={theme}>{renderLayout()}</ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </>
   );
 }
