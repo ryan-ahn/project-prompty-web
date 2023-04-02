@@ -55,7 +55,7 @@ export async function getQuestionApi(payload: types.TGetQuestionReq) {
           },
           {
             role: 'user',
-            content: `${payload.input}라는 질문 또는 요청과 관련된, 추가로 생각해 봐야 할 질문 세 가지만 보여주세요. 각각의 질문은 줄바꿈 처리 해주세요.(개행문자\n은 한개만 사용해주세요.)`,
+            content: `${payload.input}와 관련된 내용으로 내가 알면 좋을 것 같은 주제를 세 가지만 보여주세요. 각각의 질문은 줄바꿈 처리 해주세요.(개행문자\n은 한개만 사용해주세요.)`,
           },
         ],
         temperature: 0.5,
