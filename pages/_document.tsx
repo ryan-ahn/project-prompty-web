@@ -11,9 +11,9 @@ export default function Document() {
     <Html lang="en">
       <Head>
         {/* icons */}
-        <link rel="shortcut icon" href="/static/icons/common/favicon.png" />
-        <link rel="apple-touch-icon" sizes="196x196" href="/static/icons/common/favicon196.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/common/favicon32.png" />
+        <link rel="shortcut icon" href="/static/logo.png" />
+        <link rel="apple-touch-icon" sizes="196x196" href="/static/logo.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/logo.png" />
         {/* font */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
