@@ -14,7 +14,7 @@ export type TProps = {
 export default function ThreadsPage({ search }: TProps) {
   // Value
   const meta = {
-    page_title: META_PAGE.threads.page_title,
+    page_title: `Prompty AI : ${search}`,
     page_description: META_COMMON.site_description,
     page_cannonical_link: META_PAGE.threads.page_cannonical_link,
     page_image: META_COMMON.site_image,
