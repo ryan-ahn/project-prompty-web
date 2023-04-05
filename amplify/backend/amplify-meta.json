@@ -27,16 +27,16 @@
           },
           "additionalAuthenticationProviders": []
         },
-        "GraphQLAPIIdOutput": "y7temphwuzdojk7z3kacfqc5ua",
-        "GraphQLAPIEndpointOutput": "https://cp4vi3nrsrbqfieohwkvnodbaq.appsync-api.ap-northeast-2.amazonaws.com/graphql",
-        "GraphQLAPIKeyOutput": "da2-2vw4wr4ihvgwpp7gre7256dlxi"
+        "GraphQLAPIIdOutput": "od6wwt7ih5hc5cioa2cmt3fwnm",
+        "GraphQLAPIEndpointOutput": "https://zr7theh44fcf5jvmdc32yizloq.appsync-api.ap-northeast-2.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-7g6hv2h4zzbtrav2a5i5hz5ut4"
       },
+      "lastPushTimeStamp": "2023-04-04T20:01:03.431Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-prompty-dev-173318-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiprompty"
       },
-      "lastPushTimeStamp": "2023-03-31T09:08:40.346Z",
-      "lastPushDirHash": "uXumds7a+8sy1BjhKlxgj47alQs="
+      "lastPushDirHash": "zU8SFR7PyB3tXida3+KjAq1dKQ8="
     }
   }
 }

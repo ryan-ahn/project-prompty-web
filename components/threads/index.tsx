@@ -16,6 +16,7 @@ import {
   GET_QUESTION_REQUEST,
   SET_STATIC_DATA,
 } from '@libs/redux/modules/main/actions';
+import { createPrompts } from '@graphql/mutations';
 
 type TVisibility = {
   attrVisibility: boolean;
@@ -97,6 +98,8 @@ export default function index({ search }: TProps) {
     }
   }, [search]);
 
+  useEffect(() => {}, [data]);
+
   // Render Item
   const renderItem = useCallback(
     (data: any) => {
@@ -126,12 +129,15 @@ export default function index({ search }: TProps) {
             <img src={'static/add_question.png'} alt="reply" />
             <p>이런 추가 질문은 어때요?</p>
           </LineBox>
-          {addQuestion.split('\n').map((line, index) => (
-            <QuestionBox key={index} onClick={() => onClickAddData(line)}>
-              <p>{line}</p>
-              <img src={'static/plus.png'} alt="add" />
-            </QuestionBox>
-          ))}
+          {addQuestion
+            .split('\n')
+            .filter(line => line.length > 0)
+            .map((line, index) => (
+              <QuestionBox key={index} onClick={() => onClickAddData(line)}>
+                <p>{line}</p>
+                <img src={'static/plus.png'} alt="add" />
+              </QuestionBox>
+            ))}
         </ItemWrapper>
       );
     } else {

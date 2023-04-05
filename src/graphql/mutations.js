@@ -1,51 +1,63 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createPrompt = /* GraphQL */ `
-  mutation CreatePrompt(
-    $input: CreatePromptInput!
-    $condition: ModelPromptConditionInput
+export const createPrompts = /* GraphQL */ `
+  mutation CreatePrompts(
+    $input: CreatePromptsInput!
+    $condition: ModelPromptsConditionInput
   ) {
-    createPrompt(input: $input, condition: $condition) {
+    createPrompts(input: $input, condition: $condition) {
       id
-      prompt
-      answer
-      list
+      data {
+        prompt
+        answer
+      }
       category
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
-export const updatePrompt = /* GraphQL */ `
-  mutation UpdatePrompt(
-    $input: UpdatePromptInput!
-    $condition: ModelPromptConditionInput
+export const updatePrompts = /* GraphQL */ `
+  mutation UpdatePrompts(
+    $input: UpdatePromptsInput!
+    $condition: ModelPromptsConditionInput
   ) {
-    updatePrompt(input: $input, condition: $condition) {
+    updatePrompts(input: $input, condition: $condition) {
       id
-      prompt
-      answer
-      list
+      data {
+        prompt
+        answer
+      }
       category
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
-export const deletePrompt = /* GraphQL */ `
-  mutation DeletePrompt(
-    $input: DeletePromptInput!
-    $condition: ModelPromptConditionInput
+export const deletePrompts = /* GraphQL */ `
+  mutation DeletePrompts(
+    $input: DeletePromptsInput!
+    $condition: ModelPromptsConditionInput
   ) {
-    deletePrompt(input: $input, condition: $condition) {
+    deletePrompts(input: $input, condition: $condition) {
       id
-      prompt
-      answer
-      list
+      data {
+        prompt
+        answer
+      }
       category
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;

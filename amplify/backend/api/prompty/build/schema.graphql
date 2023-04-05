@@ -1,12 +1,18 @@
 
-type Prompt {
+type Prompts {
   id: ID!
-  prompt: String!
-  answer: String!
-  list: [String]!
+  data: [Prompt]!
   category: Int!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Prompt {
+  prompt: String!
+  answer: String!
 }
 
 input ModelStringInput {
@@ -159,76 +165,73 @@ enum ModelSortDirection {
   DESC
 }
 
-type ModelPromptConnection {
-  items: [Prompt]!
-  nextToken: String
+input PromptInput {
+  prompt: String!
+  answer: String!
 }
 
-input ModelPromptFilterInput {
+type ModelPromptsConnection {
+  items: [Prompts]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelPromptsFilterInput {
   id: ModelIDInput
-  prompt: ModelStringInput
-  answer: ModelStringInput
-  list: ModelStringInput
   category: ModelIntInput
-  and: [ModelPromptFilterInput]
-  or: [ModelPromptFilterInput]
-  not: ModelPromptFilterInput
+  and: [ModelPromptsFilterInput]
+  or: [ModelPromptsFilterInput]
+  not: ModelPromptsFilterInput
 }
 
 type Query {
-  getPrompt(id: ID!): Prompt
-  listPrompts(filter: ModelPromptFilterInput, limit: Int, nextToken: String): ModelPromptConnection
+  getPrompts(id: ID!): Prompts
+  listPrompts(filter: ModelPromptsFilterInput, limit: Int, nextToken: String): ModelPromptsConnection
+  syncPrompts(filter: ModelPromptsFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelPromptsConnection
 }
 
-input ModelPromptConditionInput {
-  prompt: ModelStringInput
-  answer: ModelStringInput
-  list: ModelStringInput
+input ModelPromptsConditionInput {
   category: ModelIntInput
-  and: [ModelPromptConditionInput]
-  or: [ModelPromptConditionInput]
-  not: ModelPromptConditionInput
+  and: [ModelPromptsConditionInput]
+  or: [ModelPromptsConditionInput]
+  not: ModelPromptsConditionInput
 }
 
-input CreatePromptInput {
+input CreatePromptsInput {
   id: ID
-  prompt: String!
-  answer: String!
-  list: [String]!
+  data: [PromptInput]!
   category: Int!
+  _version: Int
 }
 
-input UpdatePromptInput {
+input UpdatePromptsInput {
   id: ID!
-  prompt: String
-  answer: String
-  list: [String]
+  data: [PromptInput]
   category: Int
+  _version: Int
 }
 
-input DeletePromptInput {
+input DeletePromptsInput {
   id: ID!
+  _version: Int
 }
 
 type Mutation {
-  createPrompt(input: CreatePromptInput!, condition: ModelPromptConditionInput): Prompt
-  updatePrompt(input: UpdatePromptInput!, condition: ModelPromptConditionInput): Prompt
-  deletePrompt(input: DeletePromptInput!, condition: ModelPromptConditionInput): Prompt
+  createPrompts(input: CreatePromptsInput!, condition: ModelPromptsConditionInput): Prompts
+  updatePrompts(input: UpdatePromptsInput!, condition: ModelPromptsConditionInput): Prompts
+  deletePrompts(input: DeletePromptsInput!, condition: ModelPromptsConditionInput): Prompts
 }
 
-input ModelSubscriptionPromptFilterInput {
+input ModelSubscriptionPromptsFilterInput {
   id: ModelSubscriptionIDInput
-  prompt: ModelSubscriptionStringInput
-  answer: ModelSubscriptionStringInput
-  list: ModelSubscriptionStringInput
   category: ModelSubscriptionIntInput
-  and: [ModelSubscriptionPromptFilterInput]
-  or: [ModelSubscriptionPromptFilterInput]
+  and: [ModelSubscriptionPromptsFilterInput]
+  or: [ModelSubscriptionPromptsFilterInput]
 }
 
 type Subscription {
-  onCreatePrompt(filter: ModelSubscriptionPromptFilterInput): Prompt @aws_subscribe(mutations: ["createPrompt"])
-  onUpdatePrompt(filter: ModelSubscriptionPromptFilterInput): Prompt @aws_subscribe(mutations: ["updatePrompt"])
-  onDeletePrompt(filter: ModelSubscriptionPromptFilterInput): Prompt @aws_subscribe(mutations: ["deletePrompt"])
+  onCreatePrompts(filter: ModelSubscriptionPromptsFilterInput): Prompts @aws_subscribe(mutations: ["createPrompts"])
+  onUpdatePrompts(filter: ModelSubscriptionPromptsFilterInput): Prompts @aws_subscribe(mutations: ["updatePrompts"])
+  onDeletePrompts(filter: ModelSubscriptionPromptsFilterInput): Prompts @aws_subscribe(mutations: ["deletePrompts"])
 }
 

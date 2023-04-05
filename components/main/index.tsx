@@ -5,11 +5,11 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
-import styled, { css } from 'styled-components';
-import Link from 'next/link';
-import { DUMMY } from '@containers/data';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import styled, { css } from 'styled-components';
+import { DUMMY } from '@containers/data';
 import { INIT_THREAD } from '@libs/redux/modules/main/actions';
 
 type TFocus = {
@@ -20,7 +20,7 @@ type TVisibility = {
   attrVisibility: boolean;
 };
 
-export default function Mainindex() {
+export default function MainIndex() {
   // State
   const [input, setInput] = useState<string>('');
   const [focus, setFocus] = useState<boolean>(false);

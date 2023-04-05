@@ -1,9 +1,5 @@
 projects:
-<<<<<<< HEAD
   prompty:
-=======
-  prompt:
->>>>>>> development
     schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.js
@@ -14,9 +10,3 @@ projects:
         codeGenTarget: javascript
         generatedFileName: ''
         docsFilePath: src/graphql
-<<<<<<< HEAD
-=======
-extensions:
-  amplify:
-    version: 3
->>>>>>> development

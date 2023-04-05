@@ -1,42 +1,54 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreatePrompt = /* GraphQL */ `
-  subscription OnCreatePrompt($filter: ModelSubscriptionPromptFilterInput) {
-    onCreatePrompt(filter: $filter) {
+export const onCreatePrompts = /* GraphQL */ `
+  subscription OnCreatePrompts($filter: ModelSubscriptionPromptsFilterInput) {
+    onCreatePrompts(filter: $filter) {
       id
-      prompt
-      answer
-      list
+      data {
+        prompt
+        answer
+      }
       category
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
-export const onUpdatePrompt = /* GraphQL */ `
-  subscription OnUpdatePrompt($filter: ModelSubscriptionPromptFilterInput) {
-    onUpdatePrompt(filter: $filter) {
+export const onUpdatePrompts = /* GraphQL */ `
+  subscription OnUpdatePrompts($filter: ModelSubscriptionPromptsFilterInput) {
+    onUpdatePrompts(filter: $filter) {
       id
-      prompt
-      answer
-      list
+      data {
+        prompt
+        answer
+      }
       category
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
-export const onDeletePrompt = /* GraphQL */ `
-  subscription OnDeletePrompt($filter: ModelSubscriptionPromptFilterInput) {
-    onDeletePrompt(filter: $filter) {
+export const onDeletePrompts = /* GraphQL */ `
+  subscription OnDeletePrompts($filter: ModelSubscriptionPromptsFilterInput) {
+    onDeletePrompts(filter: $filter) {
       id
-      prompt
-      answer
-      list
+      data {
+        prompt
+        answer
+      }
       category
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
