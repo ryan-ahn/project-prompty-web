@@ -22,6 +22,10 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
           rel="stylesheet"
         />
+        <meta
+          name="google-site-verification"
+          content="3FuUbOQX1_tXA115sYEmVB7dz6LoSawrXGlQr8MBVNo"
+        />
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
