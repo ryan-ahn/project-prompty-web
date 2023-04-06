@@ -16,6 +16,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "paths": {
+      "@common/*": ["common/*"],
       "@components/*": ["components/*"],
       "@libs/*": ["libs/*"],
       "@containers/*": ["containers/*"],
@@ -36,7 +37,7 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/_document.js",
-    "components/main/index.tsxx",
-    "components/main/index.tsxx"
+    "containers/main/index.tsxx",
+    "containers/main/index.tsxx"
   ]
 }

@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
-import { DUMMY } from '@containers/data';
+import { DUMMY } from '@common/data';
 import { INIT_THREAD } from '@libs/redux/modules/main/actions';
 
 type TFocus = {

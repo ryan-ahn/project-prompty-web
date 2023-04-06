@@ -4,7 +4,7 @@
  * Desc : threads
  */
 
-import { META_COMMON, META_PAGE } from 'common/meta';
+import { META_COMMON, META_PAGE } from '@common/meta';
 import SEO from '@components/seo';
 import Threads from '@containers/threads';
 

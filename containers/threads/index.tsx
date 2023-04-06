@@ -8,7 +8,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import { TProps } from 'pages/threads';
-import { DUMMY } from '@containers/data';
+import { DUMMY } from '@common/data';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@libs/redux/modules';
 import {

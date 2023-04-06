@@ -4,9 +4,9 @@
  * Desc : index
  */
 
-import { META_COMMON, META_PAGE } from '@containers/meta';
+import { META_COMMON, META_PAGE } from '@common/meta';
 import SEO from '@components/seo';
-import Main from '@components/main';
+import Main from '@containers/main';
 
 export default function index() {
   // Value

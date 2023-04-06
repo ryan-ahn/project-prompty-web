@@ -5,7 +5,7 @@
  */
 
 import Head from 'next/head';
-import { META_COMMON } from '@containers/meta';
+import { META_COMMON } from '@common/meta';
 
 type Meta = {
   page_title: string;
