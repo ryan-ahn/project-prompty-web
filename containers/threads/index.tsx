@@ -16,7 +16,6 @@ import {
   GET_QUESTION_REQUEST,
   SET_STATIC_DATA,
 } from '@libs/redux/modules/main/actions';
-import { createPrompts } from '@graphql/mutations';
 
 type TVisibility = {
   attrVisibility: boolean;
@@ -48,27 +47,30 @@ export default function index({ search }: TProps) {
   );
 
   const onClickSearch = useCallback(() => {
-    dispatch({ type: GET_DATA_REQUEST, payload: { input: input } });
-  }, [input]);
+    dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: input } });
+  }, [input, data]);
 
   const onKeyPressEnter = useCallback(
     (e: any) => {
       if (e.key === 'Enter') {
-        dispatch({ type: GET_DATA_REQUEST, payload: { input: input } });
-        dispatch({ type: GET_QUESTION_REQUEST, payload: { input: input } });
+        dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: input } });
+        dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: input } });
       }
     },
-    [input],
+    [input, data],
   );
 
   const onClickRouteToMain = useCallback(() => {
     router.push('/');
   }, []);
 
-  const onClickAddData = useCallback((text: string) => {
-    dispatch({ type: GET_DATA_REQUEST, payload: { input: text } });
-    dispatch({ type: GET_QUESTION_REQUEST, payload: { input: text } });
-  }, []);
+  const onClickAddData = useCallback(
+    (text: string) => {
+      dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: text } });
+      dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: text } });
+    },
+    [data],
+  );
 
   useEffect(() => {
     if (isLoadingData || isLoadingQuestion) {
@@ -93,12 +95,10 @@ export default function index({ search }: TProps) {
         payload: { promptList: DUMMY[2].promptList, addQuestion: DUMMY[2].addQuestion },
       });
     } else {
-      dispatch({ type: GET_DATA_REQUEST, payload: { input: search } });
-      dispatch({ type: GET_QUESTION_REQUEST, payload: { input: search } });
+      dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: search } });
+      dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: search } });
     }
   }, [search]);
-
-  useEffect(() => {}, [data]);
 
   // Render Item
   const renderItem = useCallback(
