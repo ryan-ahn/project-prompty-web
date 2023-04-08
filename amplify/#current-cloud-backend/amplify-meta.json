@@ -31,7 +31,7 @@
         "GraphQLAPIEndpointOutput": "https://zr7theh44fcf5jvmdc32yizloq.appsync-api.ap-northeast-2.amazonaws.com/graphql",
         "GraphQLAPIKeyOutput": "da2-7g6hv2h4zzbtrav2a5i5hz5ut4"
       },
-      "lastPushTimeStamp": "2023-04-08T10:00:07.554Z",
+      "lastPushTimeStamp": "2023-04-08T10:55:11.745Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-prompty-dev-173318-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apiprompty"
@@ -39,51 +39,5 @@
       "lastPushDirHash": "zU8SFR7PyB3tXida3+KjAq1dKQ8="
     }
   },
-  "auth": {
-    "prompty60e5decc": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false,
-      "frontendAuthConfig": {
-        "socialProviders": [
-          "GOOGLE"
-        ],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
-        "signupAttributes": [
-          "EMAIL"
-        ],
-        "passwordProtectionSettings": {
-          "passwordPolicyMinLength": 8,
-          "passwordPolicyCharacters": []
-        },
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
-        ],
-        "verificationMechanisms": [
-          "EMAIL"
-        ]
-      },
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-prompty-dev-173318-deployment/amplify-cfn-templates/auth/prompty60e5decc-cloudformation-template.json",
-        "logicalId": "authprompty60e5decc"
-      },
-      "lastPushTimeStamp": "2023-04-08T10:00:07.637Z",
-      "output": {
-        "UserPoolId": "ap-northeast-2_lNaqJbpqO",
-        "AppClientIDWeb": "54v5eer1avbf1b1sdeg3u7mmug",
-        "AppClientID": "10q7i8q6dtooju23ulb9co004v",
-        "HostedUIDomain": "prompty60e5decc-60e5decc-dev",
-        "IdentityPoolId": "ap-northeast-2:ffbebf01-4e64-4788-bf25-2bf67b091024",
-        "UserPoolArn": "arn:aws:cognito-idp:ap-northeast-2:090159585626:userpool/ap-northeast-2_lNaqJbpqO",
-        "IdentityPoolName": "prompty60e5decc_identitypool_60e5decc__dev",
-        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://www.prompty.im/redirect/\",\"https://www.prompty.im/redirect/\"],\"LogoutURLs\":[\"https://www.prompty.im/\"]}",
-        "UserPoolName": "prompty60e5decc_userpool_60e5decc"
-      },
-      "lastPushDirHash": "Y2RrPgYj+sTo+WthKgffSXKIkQU="
-    }
-  }
+  "auth": {}
 }
