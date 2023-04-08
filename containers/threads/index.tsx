@@ -72,6 +72,15 @@ export default function index({ search }: TProps) {
     [data],
   );
 
+  const onClickAddQuestionReload = useCallback(() => {
+    if (data !== null) {
+      dispatch({
+        type: GET_QUESTION_REQUEST,
+        payload: { assistant: data, input: data[data.length - 1].prompt },
+      });
+    }
+  }, [data]);
+
   useEffect(() => {
     if (isLoadingData || isLoadingQuestion) {
       window.scrollTo({ top: 10000, behavior: 'smooth' });
@@ -110,8 +119,10 @@ export default function index({ search }: TProps) {
           </PromptBox>
           <ReplyBox>
             <LineBox>
-              <img src={'static/reply.png'} alt="reply" />
-              <p>AI의 답변이에요</p>
+              <div>
+                <img src={'static/reply.png'} alt="reply" />
+                <p>AI의 답변이에요</p>
+              </div>
             </LineBox>
             <p>{data.answer}</p>
           </ReplyBox>
@@ -126,8 +137,11 @@ export default function index({ search }: TProps) {
       return (
         <ItemWrapper>
           <LineBox>
-            <img src={'static/add_question.png'} alt="reply" />
-            <p>이런 추가 질문은 어때요?</p>
+            <div>
+              <img src={'static/add_question.png'} alt="reply" />
+              <p>이런 추가 질문은 어때요?</p>
+            </div>
+            <img src={'static/button-reload.png'} alt="reload" onClick={onClickAddQuestionReload} />
           </LineBox>
           {addQuestion
             .replace(/[1-9]. |"/g, '')
@@ -145,8 +159,10 @@ export default function index({ search }: TProps) {
       return (
         <ItemWrapper>
           <LineBox>
-            <img src={'static/add_question.png'} alt="reply" />
-            <p>이런 추가 질문은 어때요?</p>
+            <div>
+              <img src={'static/add_question.png'} alt="reply" />
+              <p>이런 추가 질문은 어때요?</p>
+            </div>
           </LineBox>
           <SkeletonQuestion />
           <SkeletonQuestion />
@@ -166,8 +182,10 @@ export default function index({ search }: TProps) {
           <SkeletonPrompt />
           <ReplyBox>
             <LineBox>
-              <img src={'static/reply.png'} alt="reply" />
-              <p>AI의 답변이에요</p>
+              <div>
+                <img src={'static/reply.png'} alt="reply" />
+                <p>AI의 답변이에요</p>
+              </div>
             </LineBox>
             <SkeletonAnswer />
             <SkeletonAnswer />
@@ -192,8 +210,10 @@ export default function index({ search }: TProps) {
           <SkeletonPrompt />
           <ReplyBox>
             <LineBox>
-              <img src={'static/reply.png'} alt="reply" />
-              <p>AI의 답변이에요</p>
+              <div>
+                <img src={'static/reply.png'} alt="reply" />
+                <p>AI의 답변이에요</p>
+              </div>
             </LineBox>
             <SkeletonAnswer />
             <SkeletonAnswer />
@@ -309,20 +329,27 @@ const ReplyBox = styled.div`
 `;
 
 const LineBox = styled.div`
-  ${({ theme }) => theme.flexSet('flex-start', 'center', 'row')};
-  ${({ theme }) => theme.boxSet('100%', '35px', '0px')};
-  & > img {
-    ${({ theme }) => theme.boxSet('14px', 'auto', '0px')};
-    margin-right: 10px;
+  ${({ theme }) => theme.flexSet('space-between', 'center', 'row')};
+  ${({ theme }) => theme.boxSet('100%', '100%', '0px')};
+  & > div {
+    ${({ theme }) => theme.flexSet('flex-start', 'center', 'row')};
+    ${({ theme }) => theme.boxSet('100%', '35px', '0px')};
+    & > img {
+      ${({ theme }) => theme.boxSet('14px', 'auto', '0px')};
+      margin-right: 10px;
+    }
+    & > p {
+      color: #009ffc;
+      ${({ theme }) => theme.fontSet(14, 400, 20)};
+    }
   }
-  & > p {
-    color: #009ffc;
-    ${({ theme }) => theme.fontSet(14, 400, 20)};
+  & > img {
+    ${({ theme }) => theme.boxSet('25px', 'auto', '0px')};
   }
 `;
 
 const QuestionBox = styled.div`
-  ${({ theme }) => theme.boxSet('100%', '100%', '20px')};
+  ${({ theme }) => theme.boxSet('100%', 'auto', '20px')};
   ${({ theme }) => theme.flexSet('space-between', 'center', 'row')};
   padding: 5px 15px;
   margin-top: 10px;
@@ -334,11 +361,11 @@ const QuestionBox = styled.div`
   }
   & > p {
     ${({ theme }) => theme.flexSet('flex-start', 'center', 'row')};
-    ${({ theme }) => theme.boxSet('100%', '30px', '0px')};
     ${({ theme }) => theme.fontSet(14, 400, 20)};
   }
   & > img {
     ${({ theme }) => theme.boxSet('15px', 'auto', '0px')};
+    margin-left: 10px;
   }
 `;
 
