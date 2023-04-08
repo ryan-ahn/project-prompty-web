@@ -6,7 +6,45 @@ const awsmobile = {
     "aws_appsync_graphqlEndpoint": "https://zr7theh44fcf5jvmdc32yizloq.appsync-api.ap-northeast-2.amazonaws.com/graphql",
     "aws_appsync_region": "ap-northeast-2",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-7g6hv2h4zzbtrav2a5i5hz5ut4"
+    "aws_appsync_apiKey": "da2-7g6hv2h4zzbtrav2a5i5hz5ut4",
+    "aws_cognito_identity_pool_id": "ap-northeast-2:ffbebf01-4e64-4788-bf25-2bf67b091024",
+    "aws_cognito_region": "ap-northeast-2",
+    "aws_user_pools_id": "ap-northeast-2_lNaqJbpqO",
+    "aws_user_pools_web_client_id": "54v5eer1avbf1b1sdeg3u7mmug",
+    "oauth": {
+        "domain": "prompty60e5decc-60e5decc-dev.auth.ap-northeast-2.amazoncognito.com",
+        "scope": [
+            "phone",
+            "email",
+            "openid",
+            "profile",
+            "aws.cognito.signin.user.admin"
+        ],
+        "redirectSignIn": "https://www.prompty.im/redirect/,https://www.prompty.im/redirect/",
+        "redirectSignOut": "https://www.prompty.im/",
+        "responseType": "code"
+    },
+    "federationTarget": "COGNITO_USER_POOLS",
+    "aws_cognito_username_attributes": [
+        "EMAIL"
+    ],
+    "aws_cognito_social_providers": [
+        "GOOGLE"
+    ],
+    "aws_cognito_signup_attributes": [
+        "EMAIL"
+    ],
+    "aws_cognito_mfa_configuration": "OFF",
+    "aws_cognito_mfa_types": [
+        "SMS"
+    ],
+    "aws_cognito_password_protection_settings": {
+        "passwordPolicyMinLength": 8,
+        "passwordPolicyCharacters": []
+    },
+    "aws_cognito_verification_mechanisms": [
+        "EMAIL"
+    ]
 };
 
 

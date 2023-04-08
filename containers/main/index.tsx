@@ -42,12 +42,14 @@ export default function MainIndex() {
   }, []);
 
   const onClickSearch = useCallback(() => {
-    router.push(`/threads/?search=${input}`);
+    if (input.length > 0) {
+      router.push(`/threads/?search=${input}`);
+    }
   }, [input]);
 
   const onKeyPressEnter = useCallback(
     (e: any) => {
-      if (e.key === 'Enter') {
+      if (input.length > 0 && e.key === 'Enter') {
         router.push(`/threads/?search=${input}`);
       }
     },
@@ -58,10 +60,6 @@ export default function MainIndex() {
     if (inputRef !== null && inputRef.current !== null) {
       inputRef.current.focus();
     }
-  }, []);
-
-  useEffect(() => {
-    dispatch({ type: INIT_THREAD });
   }, []);
 
   // Render Item

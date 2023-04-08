@@ -86,7 +86,6 @@ export async function getQuestionApi(payload: types.TGetQuestionReq) {
       },
     );
     const result: types.TGetQuestionRes = response.data.choices[0].message.content;
-    console.log(result);
     return result;
   } catch (e) {
     throw new Error(e as any);

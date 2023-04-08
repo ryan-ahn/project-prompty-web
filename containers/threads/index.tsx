@@ -14,6 +14,7 @@ import { RootState } from '@libs/redux/modules';
 import {
   GET_DATA_REQUEST,
   GET_QUESTION_REQUEST,
+  INIT_THREAD,
   SET_STATIC_DATA,
 } from '@libs/redux/modules/main/actions';
 
@@ -47,12 +48,15 @@ export default function index({ search }: TProps) {
   );
 
   const onClickSearch = useCallback(() => {
-    dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: input } });
+    if (input.length > 0) {
+      dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: input } });
+      dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: input } });
+    }
   }, [input, data]);
 
   const onKeyPressEnter = useCallback(
     (e: any) => {
-      if (e.key === 'Enter') {
+      if (input.length > 0 && e.key === 'Enter') {
         dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: input } });
         dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: input } });
       }
@@ -109,6 +113,17 @@ export default function index({ search }: TProps) {
     }
   }, [search]);
 
+  const routeChangeStart = useCallback(() => {
+    dispatch({ type: INIT_THREAD });
+  }, []);
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', routeChangeStart);
+    return () => {
+      router.events.off('routeChangeStart', routeChangeStart);
+    };
+  }, [router.events]);
+
   // Render Item
   const renderItem = useCallback(
     (data: any) => {
@@ -145,6 +160,7 @@ export default function index({ search }: TProps) {
           </LineBox>
           {addQuestion
             .replace(/[1-9]. |"/g, '')
+            .replace(/\n\n/g, '\n')
             .split('\n')
             .filter(line => line.length > 0 || line !== ' ')
             .map((line, index) => (
