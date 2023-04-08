@@ -159,7 +159,7 @@ export default function index({ search }: TProps) {
             <img src={'static/button-reload.png'} alt="reload" onClick={onClickAddQuestionReload} />
           </LineBox>
           {addQuestion
-            .replace(/[1-9]. |"/g, '')
+            .replace(/[1-9]. |"|-|- /g, '')
             .replace(/\n\n/g, '\n')
             .split('\n')
             .filter(line => line.length > 0 || line !== ' ')
