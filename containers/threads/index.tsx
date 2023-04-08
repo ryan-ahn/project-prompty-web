@@ -466,7 +466,7 @@ const SkeletonAnswer = styled.div`
 `;
 
 const SkeletonQuestion = styled.div`
-  ${({ theme }) => theme.boxSet('100%', '40px', '20px')};
+  ${({ theme }) => theme.boxSet('100%', '32px', '20px')};
   margin-top: 10px;
   animation: skeleton-ui 1.8s infinite ease-in-out;
   -webkit-animation: skeleton-ui 1.8s infinite ease-in-out;
