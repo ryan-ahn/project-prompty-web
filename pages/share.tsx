@@ -6,12 +6,12 @@
 
 import { META_COMMON, META_PAGE } from '@common/meta';
 import SEO from '@components/seo';
-import Threads from '@containers/threads';
+import Share from '@containers/Share';
 
 export type TProps = {
   search: string | null;
 };
-export default function ThreadsPage({ search }: TProps) {
+export default function SharePage({ search }: TProps) {
   // Value
   const meta = {
     page_title: `Prompty AI : ${search}`,
@@ -22,7 +22,7 @@ export default function ThreadsPage({ search }: TProps) {
 
   return (
     <SEO meta={meta}>
-      <Threads search={search} />
+      <Share />
     </SEO>
   );
 }
