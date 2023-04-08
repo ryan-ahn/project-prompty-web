@@ -130,11 +130,12 @@ export default function index({ search }: TProps) {
             <p>이런 추가 질문은 어때요?</p>
           </LineBox>
           {addQuestion
+            .replace(/[1-9]. |"/g, '')
             .split('\n')
-            .filter(line => line.length > 0)
+            .filter(line => line.length > 0 || line !== ' ')
             .map((line, index) => (
               <QuestionBox key={index} onClick={() => onClickAddData(line)}>
-                <p>{line}</p>
+                <p>{`${index + 1}. ${line}`}</p>
                 <img src={'static/plus.png'} alt="add" />
               </QuestionBox>
             ))}
