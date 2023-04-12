@@ -1,9 +1,8 @@
 {
   "name": "prompty",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
-    "dev": "next dev -p 9000",
+    "dev": "next dev -p 8080",
     "prepare": "npm run gcp-build",
     "pretest": "npm run gcp-build",
     "build": "rm -rf ./build && NODE_ENV=production next build",
@@ -13,7 +12,6 @@
     "deploy": "npm run build && gcloud app deploy",
     "gcp-build": "next build"
   },
-  "main": "pages/_app.tsx",
   "engines": {
     "node": ">=16.0.0 <17.0.0"
   },
