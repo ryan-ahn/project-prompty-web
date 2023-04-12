@@ -1,7 +1,7 @@
 import { fork, all, takeLatest, call, put } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as types from './types';
-import * as apis from '../modal/apis';
+import * as apis from './apis';
 import { PayloadAction } from 'typesafe-actions';
 
 function* getTestSaga(action: PayloadAction<'GET_TEST_REQUEST', types.TTestReq>) {

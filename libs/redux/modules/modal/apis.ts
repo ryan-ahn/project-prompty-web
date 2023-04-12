@@ -1,6 +1,6 @@
 import axios from 'axios';
-import * as actions from '../modal/actions';
-import * as types from '../modal/types';
+import * as actions from './actions';
+import * as types from './types';
 
 export async function getTestApi(payload: types.TTestReq) {
   try {
