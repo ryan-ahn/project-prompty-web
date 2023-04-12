@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 module.exports = {
+  distDir: 'build',
   env: {
     HOST: process.env.NEXT_PUBLIC_HOST,
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
