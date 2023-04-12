@@ -13,6 +13,7 @@
     "deploy": "npm run build && gcloud app deploy",
     "gcp-build": "next build"
   },
+  "main": "pages/_app.tsx",
   "engines": {
     "node": ">=16.0.0 <17.0.0"
   },
