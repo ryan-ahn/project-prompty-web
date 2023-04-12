@@ -5,13 +5,10 @@
  */
 
 import App, { AppContext, AppProps } from 'next/app';
-import { Amplify } from 'aws-amplify';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@styles/global';
 import { wrapper } from '@libs/redux/store';
 import theme from '@styles/theme';
-import awsExoprts from '../src/aws-exports';
-Amplify.configure(awsExoprts);
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

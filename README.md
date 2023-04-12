@@ -1,5 +1,5 @@
 Promppty V1.0
 
 Core: NextJs
-Server: AWS
+Server: GCP
 StateManager : Redux-saga

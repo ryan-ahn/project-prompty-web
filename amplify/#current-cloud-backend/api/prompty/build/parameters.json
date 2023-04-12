@@ -1,7 +1,0 @@
-{
-    "AppSyncApiName": "prompty",
-    "DynamoDBBillingMode": "PAY_PER_REQUEST",
-    "DynamoDBEnableServerSideEncryption": false,
-    "S3DeploymentBucket": "amplify-prompty-dev-173318-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/fb572302208856f67e7b4af27324e73530bfe4f9"
-}
