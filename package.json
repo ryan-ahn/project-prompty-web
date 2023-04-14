@@ -13,7 +13,7 @@
     "gcp-build": "next build"
   },
   "engines": {
-    "node": ">=16.0.0 <17.0.0"
+    "node": "16.14.0"
   },
   "dependencies": {
     "axios": "^0.24.0",
