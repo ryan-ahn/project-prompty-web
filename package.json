@@ -2,18 +2,9 @@
   "name": "prompty",
   "version": "0.1.0",
   "scripts": {
-    "dev": "next dev -p 8080",
-    "prepare": "npm run gcp-build",
-    "pretest": "npm run gcp-build",
-    "build": "rm -rf ./build && NODE_ENV=production next build",
-    "start": "next start -p 8080",
-    "lint": "next lint",
-    "export": "next build && next export",
-    "deploy": "npm run build && gcloud app deploy",
-    "gcp-build": "next build"
-  },
-  "engines": {
-    "node": "16.14.0"
+    "dev": "next dev -p 8000",
+    "build": "next build",
+    "start": "next start -p $PORT"
   },
   "dependencies": {
     "axios": "^0.24.0",
