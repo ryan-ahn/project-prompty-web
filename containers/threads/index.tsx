@@ -51,6 +51,7 @@ export default function index({ search }: TProps) {
     if (input.length > 0) {
       dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: input } });
       dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: input } });
+      setInput('');
     }
   }, [input, data]);
 
@@ -59,6 +60,7 @@ export default function index({ search }: TProps) {
       if (input.length > 0 && e.key === 'Enter') {
         dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: input } });
         dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: input } });
+        setInput('');
       }
     },
     [input, data],
@@ -330,6 +332,7 @@ const PromptBox = styled.div`
     ${({ theme }) => theme.fontSet(20, 500, 28)};
     white-space: pre-wrap;
     margin-bottom: 15px;
+    word-break: break-all;
   }
 `;
 
@@ -341,6 +344,7 @@ const ReplyBox = styled.div`
     color: #c1c1c1;
     ${({ theme }) => theme.fontSet(15, 400, 25)};
     white-space: pre-wrap;
+    word-break: break-all;
   }
 `;
 
