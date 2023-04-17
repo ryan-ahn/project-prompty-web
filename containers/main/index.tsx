@@ -11,6 +11,7 @@ import Link from 'next/link';
 import styled, { css } from 'styled-components';
 import { DUMMY } from '@common/data';
 import { INIT_THREAD } from '@libs/redux/modules/main/actions';
+import axios from 'axios';
 
 type TFocus = {
   attrFocus: boolean;
@@ -29,6 +30,10 @@ export default function MainIndex() {
   // Hooks
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const onClickTest = () => {
+    axios.post('http://www.prompty.im/api/prompt', { promptList: [], category: 0 });
+  };
 
   const onChangeInputText = useCallback(
     (value: string) => {
@@ -112,7 +117,7 @@ export default function MainIndex() {
                 <img src={'static/popular.png'} alt="popular" />
                 <p>인기있는 질문</p>
               </div>
-              <img src={'static/filter.png'} alt="filter" />
+              <img src={'static/filter.png'} alt="filter" onClick={onClickTest} />
             </LineHeader>
             <ListBox>{renderList()}</ListBox>
           </PopularBlock>
@@ -266,6 +271,7 @@ const LineHeader = styled.div`
   }
   & > img {
     ${({ theme }) => theme.boxSet('auto', '25px', '0px')};
+    cursor: pointer;
   }
 `;
 
