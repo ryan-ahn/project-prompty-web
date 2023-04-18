@@ -17,7 +17,10 @@ import {
   INIT_THREAD,
   SET_STATIC_DATA,
   POST_PROMPT_REQUEST,
+  GET_PROMPT_REQUEST,
 } from '@libs/redux/modules/main/actions';
+import { CLOSE_TOAST } from '@libs/redux/modules/toast/actions';
+import Toast from '@components/toast';
 
 type TVisibility = {
   attrVisibility: boolean;
@@ -27,11 +30,12 @@ type TFocus = {
   attrFocus: boolean;
 };
 
-export default function index({ search }: TProps) {
+export default function index({ search, prompt }: TProps) {
   // Root State
   const { data, addQuestion, isLoadingData, isLoadingQuestion } = useSelector(
     (state: RootState) => state.main,
   );
+  const { isOpenToast, toastText } = useSelector((state: RootState) => state.toast);
   // State
   const [input, setInput] = useState<string>('');
   const [focus, setFocus] = useState<boolean>(false);
@@ -67,14 +71,6 @@ export default function index({ search }: TProps) {
     [input, data],
   );
 
-  const onClickCreatePrompt = useCallback(() => {
-    dispatch({ type: POST_PROMPT_REQUEST, payload: { promptList: data, category: 0 } });
-  }, [data]);
-
-  const onClickRouteToMain = useCallback(() => {
-    router.push('/');
-  }, []);
-
   const onClickAddData = useCallback(
     (text: string) => {
       dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: text } });
@@ -92,6 +88,17 @@ export default function index({ search }: TProps) {
     }
   }, [data]);
 
+  const onClickCreatePrompt = useCallback(() => {
+    dispatch({ type: POST_PROMPT_REQUEST, payload: { promptList: data, category: 0 } });
+    setTimeout(() => {
+      dispatch({ type: CLOSE_TOAST });
+    }, 2500);
+  }, [data]);
+
+  const onClickRouteToMain = useCallback(() => {
+    router.push('/');
+  }, []);
+
   useEffect(() => {
     if (isLoadingData || isLoadingQuestion) {
       window.scrollTo({ top: 10000, behavior: 'smooth' });
@@ -99,26 +106,31 @@ export default function index({ search }: TProps) {
   }, [isLoadingData, isLoadingQuestion]);
 
   useEffect(() => {
-    if (search === 'sample1') {
-      dispatch({
-        type: SET_STATIC_DATA,
-        payload: { promptList: DUMMY[0].promptList, addQuestion: DUMMY[0].addQuestion },
-      });
-    } else if (search === 'sample2') {
-      dispatch({
-        type: SET_STATIC_DATA,
-        payload: { promptList: DUMMY[1].promptList, addQuestion: DUMMY[1].addQuestion },
-      });
-    } else if (search === 'sample3') {
-      dispatch({
-        type: SET_STATIC_DATA,
-        payload: { promptList: DUMMY[2].promptList, addQuestion: DUMMY[2].addQuestion },
-      });
-    } else {
-      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: search } });
-      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: data, input: search } });
+    if (search !== null) {
+      if (search === 'sample1') {
+        dispatch({
+          type: SET_STATIC_DATA,
+          payload: { promptList: DUMMY[0].promptList, addQuestion: DUMMY[0].addQuestion },
+        });
+      } else if (search === 'sample2') {
+        dispatch({
+          type: SET_STATIC_DATA,
+          payload: { promptList: DUMMY[1].promptList, addQuestion: DUMMY[1].addQuestion },
+        });
+      } else if (search === 'sample3') {
+        dispatch({
+          type: SET_STATIC_DATA,
+          payload: { promptList: DUMMY[2].promptList, addQuestion: DUMMY[2].addQuestion },
+        });
+      } else {
+        dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: search } });
+        dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: data, input: search } });
+      }
     }
-  }, [search]);
+    if (prompt !== null) {
+      dispatch({ type: GET_PROMPT_REQUEST, payload: prompt });
+    }
+  }, [search, prompt]);
 
   const routeChangeStart = useCallback(() => {
     dispatch({ type: INIT_THREAD });
@@ -221,6 +233,7 @@ export default function index({ search }: TProps) {
 
   return (
     <Wrapper>
+      <Toast inverted={isOpenToast} text={toastText} />
       <HeaderArea>
         <div>
           <img src={'static/logo_white.png'} alt="logo" onClick={onClickRouteToMain} />

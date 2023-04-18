@@ -40,3 +40,13 @@ export const postPromptAction = createAsyncAction(
   POST_PROMPT_SUCCESS,
   POST_PROMPT_FAILURE,
 )<types.TPostPromptReq, types.TPostPromptRes, AxiosError>();
+
+export const GET_PROMPT_URL = `${API_HOST}/prompt`;
+export const GET_PROMPT_REQUEST = 'GET_PROMPT_REQUEST';
+export const GET_PROMPT_SUCCESS = 'GET_PROMPT_SUCCESS';
+export const GET_PROMPT_FAILURE = 'GET_PROMPT_FAILURE';
+export const getPromptAction = createAsyncAction(
+  GET_PROMPT_REQUEST,
+  GET_PROMPT_SUCCESS,
+  GET_PROMPT_FAILURE,
+)<types.TGetPromptReq, types.TGetPromptRes, AxiosError>();

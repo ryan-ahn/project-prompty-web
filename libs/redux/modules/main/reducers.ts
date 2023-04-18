@@ -76,6 +76,20 @@ const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
     ...state,
     isLoadingCreatePrompt: false,
   }),
+
+  [actions.GET_PROMPT_REQUEST]: state => ({
+    ...state,
+    isLoadingCreatePrompt: true,
+  }),
+  [actions.GET_PROMPT_SUCCESS]: (state, action) => ({
+    ...state,
+    data: action.payload.promptList,
+    isLoadingCreatePrompt: false,
+  }),
+  [actions.GET_PROMPT_FAILURE]: state => ({
+    ...state,
+    isLoadingCreatePrompt: false,
+  }),
 });
 
 export default mainReducer;

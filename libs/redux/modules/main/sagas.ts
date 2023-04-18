@@ -1,8 +1,10 @@
+import Router from 'next/router';
 import { fork, all, takeLatest, call, put } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as apis from './apis';
 import * as types from './types';
 import { PayloadAction } from 'typesafe-actions';
+import { OPEN_TOAST } from '../toast/actions';
 
 function* postGptChainSaga(
   action: PayloadAction<'POST_GPT_CHAIN_REQUEST', types.TPostGptChainReq>,
@@ -53,6 +55,11 @@ function* postPromptSaga(action: PayloadAction<'POST_PROMPT_REQUEST', types.TPos
       type: actions.POST_PROMPT_SUCCESS,
       payload: result,
     });
+    yield call(Router.push, `/threads?prompt=${result.id}`);
+    yield put({
+      type: OPEN_TOAST,
+      payload: '링크를 복사하세요.',
+    });
   } catch (e) {
     console.log(e);
     yield put({
@@ -65,6 +72,30 @@ function* watchPostPrompt() {
   yield takeLatest(actions.POST_PROMPT_REQUEST, postPromptSaga);
 }
 
+function* getPromptSaga(action: PayloadAction<'GET_PROMPT_REQUEST', types.TGetPromptReq>) {
+  try {
+    const result: types.TGetPromptRes = yield call(apis.getPromptListApi, action.payload);
+    yield put({
+      type: actions.GET_PROMPT_SUCCESS,
+      payload: result,
+    });
+  } catch (e) {
+    console.log(e);
+    yield put({
+      type: actions.GET_PROMPT_FAILURE,
+      error: e,
+    });
+  }
+}
+function* watchGetPrompt() {
+  yield takeLatest(actions.GET_PROMPT_REQUEST, getPromptSaga);
+}
+
 export default function* mainSaga() {
-  yield all([fork(watchGptChain), fork(watchGptRelation), fork(watchPostPrompt)]);
+  yield all([
+    fork(watchGptChain),
+    fork(watchGptRelation),
+    fork(watchPostPrompt),
+    fork(watchGetPrompt),
+  ]);
 }

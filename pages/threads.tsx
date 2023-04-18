@@ -10,8 +10,9 @@ import Threads from '@containers/threads';
 
 export type TProps = {
   search: string | null;
+  prompt: string | null;
 };
-export default function ThreadsPage({ search }: TProps) {
+export default function ThreadsPage({ search, prompt }: TProps) {
   // Value
   const meta = {
     page_title: `Prompty AI : ${search}`,
@@ -22,16 +23,18 @@ export default function ThreadsPage({ search }: TProps) {
 
   return (
     <SEO meta={meta}>
-      <Threads search={search} />
+      <Threads search={search} prompt={prompt} />
     </SEO>
   );
 }
 
 export const getServerSideProps = async (context: any) => {
   const search = context.query.search ? context.query.search : null;
+  const prompt = context.query.prompt ? context.query.prompt : null;
   return {
     props: {
       search: search,
+      prompt: prompt,
     },
   };
 };

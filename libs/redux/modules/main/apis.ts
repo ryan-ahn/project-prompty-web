@@ -37,3 +37,13 @@ export async function postPromptListApi(payload: types.TPostPromptReq) {
     throw new Error(e as any);
   }
 }
+
+export async function getPromptListApi(payload: types.TGetPromptReq) {
+  try {
+    const response = await axios.get(`${actions.POST_PROMPT_URL}/${payload.id}`);
+    const result: types.TGetPromptRes = JSON.parse(JSON.stringify(response.data)).data;
+    return result;
+  } catch (e) {
+    throw new Error(e as any);
+  }
+}
