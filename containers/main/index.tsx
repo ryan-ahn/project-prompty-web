@@ -32,7 +32,7 @@ export default function MainIndex() {
   const dispatch = useDispatch();
 
   const onClickTest = () => {
-    axios.post('http://api.prompty.im/api/prompt', { promptList: [], category: 0 });
+    axios.post('https://api.prompty.im/api/prompt', { promptList: [], category: 0 });
   };
 
   const onClickTest2 = () => {
