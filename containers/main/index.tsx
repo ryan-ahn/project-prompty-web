@@ -31,14 +31,6 @@ export default function MainIndex() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const onClickTest = () => {
-    axios.post('https://api.prompty.im/api/prompt', { promptList: [], category: 0 });
-  };
-
-  const onClickTest2 = () => {
-    axios.get('http://api.prompty.im/');
-  };
-
   const onChangeInputText = useCallback(
     (value: string) => {
       setInput(value);
@@ -118,10 +110,10 @@ export default function MainIndex() {
           <PopularBlock>
             <LineHeader>
               <div>
-                <img src={'static/popular.png'} alt="popular" onClick={onClickTest2} />
+                <img src={'static/popular.png'} alt="popular" />
                 <p>인기있는 질문</p>
               </div>
-              <img src={'static/filter.png'} alt="filter" onClick={onClickTest} />
+              <img src={'static/filter.png'} alt="filter" />
             </LineHeader>
             <ListBox>{renderList()}</ListBox>
           </PopularBlock>
