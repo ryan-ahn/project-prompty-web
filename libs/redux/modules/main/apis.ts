@@ -7,22 +7,31 @@
 import axios from 'axios';
 import * as actions from './actions';
 import * as types from './types';
-import { TMessageRole } from './types';
 
-export async function getDataApi(payload: types.TGetDataReq) {
+export async function postGptChainApi(payload: types.TPostGptChainReq) {
   try {
-    const response = await axios.post(`${actions.GET_DATA_URL}`, payload);
-    const result: types.TGetQuestionRes = response.data;
+    const response = await axios.post(`${actions.POST_GPT_CHAIN_URL}`, payload);
+    const result: types.TPostGptChainRes = JSON.parse(JSON.stringify(response.data)).data;
     return result;
   } catch (e) {
     throw new Error(e as any);
   }
 }
 
-export async function getQuestionApi(payload: types.TGetQuestionReq) {
+export async function postGptRelationApi(payload: types.TPostGptRelationReq) {
   try {
-    const response = await axios.post(`${actions.GET_QUESTION_URL}`, payload);
-    const result: types.TGetQuestionRes = response.data;
+    const response = await axios.post(`${actions.POST_GPT_RELATION_URL}`, payload);
+    const result: types.TPostGptRelationRes = JSON.parse(JSON.stringify(response.data)).data;
+    return result;
+  } catch (e) {
+    throw new Error(e as any);
+  }
+}
+
+export async function postPromptListApi(payload: types.TPostPromptReq) {
+  try {
+    const response = await axios.post(`${actions.POST_PROMPT_URL}`, payload);
+    const result: types.TPostPromptRes = JSON.parse(JSON.stringify(response.data)).data;
     return result;
   } catch (e) {
     throw new Error(e as any);

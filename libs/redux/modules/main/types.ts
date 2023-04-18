@@ -10,19 +10,23 @@ export type TSetStaticData = {
   addQuestion: string;
 };
 
-export type TGetDataReq = {
+export type TPostGptChainReq = {
   assistant: Array<{ prompt: string; answer: string }>;
   input: string;
 };
 
-export type TGetDataRes = {
+export type TPostGptChainRes = {
   prompt: string;
   answer: string;
 };
 
-export type TGetQuestionReq = {
+export type TPostGptRelationReq = {
   assistant: Array<{ prompt: string; answer: string }>;
   input: string;
 };
 
-export type TGetQuestionRes = string;
+export type TPostGptRelationRes = string;
+
+export type TPostPromptReq = { promptList: TPromptList };
+
+export type TPostPromptRes = { id: string };

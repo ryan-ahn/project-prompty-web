@@ -4,44 +4,67 @@ import * as apis from './apis';
 import * as types from './types';
 import { PayloadAction } from 'typesafe-actions';
 
-function* getDataSaga(action: PayloadAction<'GET_DATA_REQUEST', types.TGetDataReq>) {
+function* postGptChainSaga(
+  action: PayloadAction<'POST_GPT_CHAIN_REQUEST', types.TPostGptChainReq>,
+) {
   try {
-    const result: types.TGetDataRes = yield call(apis.getDataApi, action.payload);
+    const result: types.TPostGptChainRes = yield call(apis.postGptChainApi, action.payload);
     yield put({
-      type: actions.GET_DATA_SUCCESS,
+      type: actions.POST_GPT_CHAIN_SUCCESS,
       payload: result,
     });
   } catch (e) {
     console.log(e);
     yield put({
-      type: actions.GET_DATA_FAILURE,
+      type: actions.POST_GPT_CHAIN_FAILURE,
       error: e,
     });
   }
 }
-function* watchData() {
-  yield takeLatest(actions.GET_DATA_REQUEST, getDataSaga);
+function* watchGptChain() {
+  yield takeLatest(actions.POST_GPT_CHAIN_REQUEST, postGptChainSaga);
 }
 
-function* getQuestionSaga(action: PayloadAction<'GET_QUESTION_REQUEST', types.TGetQuestionReq>) {
+function* postGptRelationSaga(
+  action: PayloadAction<'POST_GPT_RELATION_REQUEST', types.TPostGptRelationReq>,
+) {
   try {
-    const result: types.TGetQuestionRes = yield call(apis.getQuestionApi, action.payload);
+    const result: types.TPostGptRelationRes = yield call(apis.postGptRelationApi, action.payload);
     yield put({
-      type: actions.GET_QUESTION_SUCCESS,
+      type: actions.POST_GPT_RELATION_SUCCESS,
       payload: result,
     });
   } catch (e) {
     console.log(e);
     yield put({
-      type: actions.GET_QUESTION_FAILURE,
+      type: actions.POST_GPT_RELATION_FAILURE,
       error: e,
     });
   }
 }
-function* watchQuestion() {
-  yield takeLatest(actions.GET_QUESTION_REQUEST, getQuestionSaga);
+function* watchGptRelation() {
+  yield takeLatest(actions.POST_GPT_RELATION_REQUEST, postGptRelationSaga);
+}
+
+function* postPromptSaga(action: PayloadAction<'POST_PROMPT_REQUEST', types.TPostPromptReq>) {
+  try {
+    const result: types.TPostPromptRes = yield call(apis.postPromptListApi, action.payload);
+    yield put({
+      type: actions.POST_PROMPT_SUCCESS,
+      payload: result,
+    });
+  } catch (e) {
+    console.log(e);
+    yield put({
+      type: actions.POST_PROMPT_FAILURE,
+      error: e,
+    });
+  }
+}
+function* watchPostPrompt() {
+  yield takeLatest(actions.POST_PROMPT_REQUEST, postPromptSaga);
 }
 
 export default function* mainSaga() {
-  yield all([fork(watchData), fork(watchQuestion)]);
+  yield all([fork(watchGptChain), fork(watchGptRelation), fork(watchPostPrompt)]);
 }

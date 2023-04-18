@@ -9,6 +9,7 @@ export type TMainReducer = {
   addQuestion: string | null;
   isLoadingData: boolean;
   isLoadingQuestion: boolean;
+  isLoadingCreatePrompt: boolean;
 };
 
 export const initialState: TMainReducer = {
@@ -16,6 +17,7 @@ export const initialState: TMainReducer = {
   addQuestion: null,
   isLoadingData: false,
   isLoadingQuestion: false,
+  isLoadingCreatePrompt: false,
 };
 
 const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
@@ -25,6 +27,7 @@ const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
     addQuestion: null,
     isLoadingData: false,
     isLoadingQuestion: false,
+    isLoadingCreatePrompt: false,
   }),
 
   [actions.SET_STATIC_DATA]: (state, action) => ({
@@ -33,32 +36,45 @@ const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
     addQuestion: action.payload.addQuestion,
   }),
 
-  [actions.GET_DATA_REQUEST]: state => ({
+  [actions.POST_GPT_CHAIN_REQUEST]: state => ({
     ...state,
     isLoadingData: true,
   }),
-  [actions.GET_DATA_SUCCESS]: (state, action) => ({
+  [actions.POST_GPT_CHAIN_SUCCESS]: (state, action) => ({
     ...state,
     data: state.data !== null ? [...state.data!, action.payload] : [action.payload],
     isLoadingData: false,
   }),
-  [actions.GET_DATA_FAILURE]: state => ({
+  [actions.POST_GPT_CHAIN_FAILURE]: state => ({
     ...state,
     isLoadingData: false,
   }),
 
-  [actions.GET_QUESTION_REQUEST]: state => ({
+  [actions.POST_GPT_RELATION_REQUEST]: state => ({
     ...state,
     isLoadingQuestion: true,
   }),
-  [actions.GET_QUESTION_SUCCESS]: (state, action) => ({
+  [actions.POST_GPT_RELATION_SUCCESS]: (state, action) => ({
     ...state,
     addQuestion: action.payload,
     isLoadingQuestion: false,
   }),
-  [actions.GET_QUESTION_FAILURE]: state => ({
+  [actions.POST_GPT_RELATION_FAILURE]: state => ({
     ...state,
     isLoadingQuestion: false,
+  }),
+
+  [actions.POST_PROMPT_REQUEST]: state => ({
+    ...state,
+    isLoadingCreatePrompt: true,
+  }),
+  [actions.POST_PROMPT_SUCCESS]: (state, action) => ({
+    ...state,
+    isLoadingCreatePrompt: false,
+  }),
+  [actions.POST_PROMPT_FAILURE]: state => ({
+    ...state,
+    isLoadingCreatePrompt: false,
   }),
 });
 

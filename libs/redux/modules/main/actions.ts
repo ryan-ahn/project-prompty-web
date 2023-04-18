@@ -11,22 +11,32 @@ export const initThread = createAction(INIT_THREAD)();
 export const SET_STATIC_DATA = 'SET_STATIC_DATA';
 export const setStaticData = createAction(SET_STATIC_DATA)<TSetStaticData>();
 
-export const GET_DATA_URL = `${API_HOST}/gpt/chain`;
-export const GET_DATA_REQUEST = 'GET_DATA_REQUEST';
-export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
-export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
-export const getDataAction = createAsyncAction(
-  GET_DATA_REQUEST,
-  GET_DATA_SUCCESS,
-  GET_DATA_FAILURE,
-)<types.TGetDataReq, types.TGetDataRes, AxiosError>();
+export const POST_GPT_CHAIN_URL = `${API_HOST}/gpt/chain`;
+export const POST_GPT_CHAIN_REQUEST = 'POST_GPT_CHAIN_REQUEST';
+export const POST_GPT_CHAIN_SUCCESS = 'POST_GPT_CHAIN_SUCCESS';
+export const POST_GPT_CHAIN_FAILURE = 'POST_GPT_CHAIN_FAILURE';
+export const postGptChainAction = createAsyncAction(
+  POST_GPT_CHAIN_REQUEST,
+  POST_GPT_CHAIN_SUCCESS,
+  POST_GPT_CHAIN_FAILURE,
+)<types.TPostGptChainReq, types.TPostGptChainRes, AxiosError>();
 
-export const GET_QUESTION_URL = `${API_HOST}/gpt/relation`;
-export const GET_QUESTION_REQUEST = 'GET_QUESTION_REQUEST';
-export const GET_QUESTION_SUCCESS = 'GET_QUESTION_SUCCESS';
-export const GET_QUESTION_FAILURE = 'GET_QUESTION_FAILURE';
-export const getQuestionAction = createAsyncAction(
-  GET_QUESTION_REQUEST,
-  GET_QUESTION_SUCCESS,
-  GET_QUESTION_FAILURE,
-)<types.TGetQuestionReq, types.TGetQuestionRes, AxiosError>();
+export const POST_GPT_RELATION_URL = `${API_HOST}/gpt/relation`;
+export const POST_GPT_RELATION_REQUEST = 'POST_GPT_RELATION_REQUEST';
+export const POST_GPT_RELATION_SUCCESS = 'POST_GPT_RELATION_SUCCESS';
+export const POST_GPT_RELATION_FAILURE = 'POST_GPT_RELATION_FAILURE';
+export const postGptRelationAction = createAsyncAction(
+  POST_GPT_RELATION_REQUEST,
+  POST_GPT_RELATION_SUCCESS,
+  POST_GPT_RELATION_FAILURE,
+)<types.TPostGptRelationReq, types.TPostGptRelationRes, AxiosError>();
+
+export const POST_PROMPT_URL = `${API_HOST}/prompt`;
+export const POST_PROMPT_REQUEST = 'POST_PROMPT_REQUEST';
+export const POST_PROMPT_SUCCESS = 'POST_PROMPT_SUCCESS';
+export const POST_PROMPT_FAILURE = 'POST_PROMPT_FAILURE';
+export const postPromptAction = createAsyncAction(
+  POST_PROMPT_REQUEST,
+  POST_PROMPT_SUCCESS,
+  POST_PROMPT_FAILURE,
+)<types.TPostPromptReq, types.TPostPromptRes, AxiosError>();

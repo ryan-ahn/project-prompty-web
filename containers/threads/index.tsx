@@ -12,10 +12,11 @@ import { DUMMY } from '@common/data';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@libs/redux/modules';
 import {
-  GET_DATA_REQUEST,
-  GET_QUESTION_REQUEST,
+  POST_GPT_CHAIN_REQUEST,
+  POST_GPT_RELATION_REQUEST,
   INIT_THREAD,
   SET_STATIC_DATA,
+  POST_PROMPT_REQUEST,
 } from '@libs/redux/modules/main/actions';
 
 type TVisibility = {
@@ -49,8 +50,8 @@ export default function index({ search }: TProps) {
 
   const onClickSearch = useCallback(() => {
     if (input.length > 0) {
-      dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: input } });
-      dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: input } });
+      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: input } });
+      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: data, input: input } });
       setInput('');
     }
   }, [input, data]);
@@ -58,13 +59,17 @@ export default function index({ search }: TProps) {
   const onKeyPressEnter = useCallback(
     (e: any) => {
       if (input.length > 0 && e.key === 'Enter') {
-        dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: input } });
-        dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: input } });
+        dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: input } });
+        dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: data, input: input } });
         setInput('');
       }
     },
     [input, data],
   );
+
+  const onClickCreatePrompt = useCallback(() => {
+    dispatch({ type: POST_PROMPT_REQUEST, payload: { promptList: data, category: 0 } });
+  }, [data]);
 
   const onClickRouteToMain = useCallback(() => {
     router.push('/');
@@ -72,8 +77,8 @@ export default function index({ search }: TProps) {
 
   const onClickAddData = useCallback(
     (text: string) => {
-      dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: text } });
-      dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: text } });
+      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: text } });
+      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: data, input: text } });
     },
     [data],
   );
@@ -81,7 +86,7 @@ export default function index({ search }: TProps) {
   const onClickAddQuestionReload = useCallback(() => {
     if (data !== null) {
       dispatch({
-        type: GET_QUESTION_REQUEST,
+        type: POST_GPT_RELATION_REQUEST,
         payload: { assistant: data, input: data[data.length - 1].prompt },
       });
     }
@@ -110,8 +115,8 @@ export default function index({ search }: TProps) {
         payload: { promptList: DUMMY[2].promptList, addQuestion: DUMMY[2].addQuestion },
       });
     } else {
-      dispatch({ type: GET_DATA_REQUEST, payload: { assistant: data, input: search } });
-      dispatch({ type: GET_QUESTION_REQUEST, payload: { assistant: data, input: search } });
+      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: search } });
+      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: data, input: search } });
     }
   }, [search]);
 
@@ -219,7 +224,10 @@ export default function index({ search }: TProps) {
       <HeaderArea>
         <div>
           <img src={'static/logo_white.png'} alt="logo" onClick={onClickRouteToMain} />
-          <button onClick={onClickRouteToMain}>{'새로 질문하기'}</button>
+          <div>
+            <button onClick={onClickCreatePrompt}>{'공유하기'}</button>
+            <button onClick={onClickRouteToMain}>{'새로 질문하기'}</button>
+          </div>
         </div>
       </HeaderArea>
       <ContentArea>{renderList()}</ContentArea>
@@ -285,12 +293,17 @@ const HeaderArea = styled.nav`
       ${({ theme }) => theme.boxSet('auto', '40px', '0px')};
       cursor: pointer;
     }
-    & > button {
-      ${({ theme }) => theme.boxSet('120px', '35px', '18px')};
-      color: white;
-      background-color: #009ffc;
-      ${({ theme }) => theme.fontSet(14, 500, 20)};
-      cursor: pointer;
+    & > div {
+      display: flex;
+      gap: 10px;
+      & > button {
+        padding: 8px 15px;
+        border-radius: 20px;
+        color: white;
+        background-color: #009ffc;
+        ${({ theme }) => theme.fontSet(14, 500, 20)};
+        cursor: pointer;
+      }
     }
   }
 `;
