@@ -8,6 +8,16 @@ import axios from 'axios';
 import * as actions from './actions';
 import * as types from './types';
 
+export async function getGptRecommendApi() {
+  try {
+    const response = await axios.get(`${actions.GET_GPT_RECOMMEND_URL}`);
+    const result: string = JSON.parse(JSON.stringify(response.data)).data;
+    return result;
+  } catch (e) {
+    throw new Error(e as any);
+  }
+}
+
 export async function postGptChainApi(payload: types.TPostGptChainReq) {
   try {
     const response = await axios.post(`${actions.POST_GPT_CHAIN_URL}`, payload);

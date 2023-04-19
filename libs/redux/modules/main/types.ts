@@ -7,7 +7,7 @@ export type TMessageRole = {
 
 export type TSetStaticData = {
   promptList: TPromptList;
-  addQuestion: string;
+  relation: string;
 };
 
 export type TPostGptChainReq = {

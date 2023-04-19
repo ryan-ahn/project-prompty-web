@@ -6,6 +6,25 @@ import * as types from './types';
 import { PayloadAction } from 'typesafe-actions';
 import { OPEN_TOAST } from '../toast/actions';
 
+function* getGptRecommendSaga() {
+  try {
+    const result: string = yield call(apis.getGptRecommendApi);
+    yield put({
+      type: actions.GET_GPT_RECOMMEND_SUCCESS,
+      payload: result,
+    });
+  } catch (e) {
+    console.log(e);
+    yield put({
+      type: actions.GET_GPT_RECOMMEND_FAILURE,
+      error: e,
+    });
+  }
+}
+function* watchGptRecommend() {
+  yield takeLatest(actions.GET_GPT_RECOMMEND_REQUEST, getGptRecommendSaga);
+}
+
 function* postGptChainSaga(
   action: PayloadAction<'POST_GPT_CHAIN_REQUEST', types.TPostGptChainReq>,
 ) {
@@ -97,6 +116,7 @@ function* watchGetPrompt() {
 
 export default function* mainSaga() {
   yield all([
+    fork(watchGptRecommend),
     fork(watchGptChain),
     fork(watchGptRelation),
     fork(watchPostPrompt),

@@ -32,7 +32,7 @@ type TFocus = {
 
 export default function index({ search, prompt }: TProps) {
   // Root State
-  const { data, addQuestion, isLoadingData, isLoadingQuestion } = useSelector(
+  const { chain, relation, isLoadingChain, isLoadingQuestion } = useSelector(
     (state: RootState) => state.main,
   );
   const { isOpenToast, toastText } = useSelector((state: RootState) => state.toast);
@@ -54,77 +54,77 @@ export default function index({ search, prompt }: TProps) {
 
   const onClickSearch = useCallback(() => {
     if (input.length > 0) {
-      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: input } });
-      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: data, input: input } });
+      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: chain, input: input } });
+      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: chain, input: input } });
       setInput('');
     }
-  }, [input, data]);
+  }, [input, chain]);
 
   const onKeyPressEnter = useCallback(
     (e: any) => {
       if (input.length > 0 && e.key === 'Enter') {
-        dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: input } });
-        dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: data, input: input } });
+        dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: chain, input: input } });
+        dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: chain, input: input } });
         setInput('');
       }
     },
-    [input, data],
+    [input, chain],
   );
 
-  const onClickAddData = useCallback(
+  const onClickAddChain = useCallback(
     (text: string) => {
-      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: text } });
-      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: data, input: text } });
+      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: chain, input: text } });
+      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: chain, input: text } });
     },
-    [data],
+    [chain],
   );
 
-  const onClickAddQuestionReload = useCallback(() => {
-    if (data !== null) {
+  const onClickRelationReload = useCallback(() => {
+    if (chain !== null) {
       dispatch({
         type: POST_GPT_RELATION_REQUEST,
-        payload: { assistant: data, input: data[data.length - 1].prompt },
+        payload: { assistant: chain, input: chain[chain.length - 1].prompt },
       });
     }
-  }, [data]);
+  }, [chain]);
 
   const onClickCreatePrompt = useCallback(() => {
-    dispatch({ type: POST_PROMPT_REQUEST, payload: { promptList: data, category: 0 } });
+    dispatch({ type: POST_PROMPT_REQUEST, payload: { promptList: chain, category: 0 } });
     setTimeout(() => {
       dispatch({ type: CLOSE_TOAST });
     }, 2500);
-  }, [data]);
+  }, [chain]);
 
   const onClickRouteToMain = useCallback(() => {
     router.push('/');
   }, []);
 
   useEffect(() => {
-    if (isLoadingData || isLoadingQuestion) {
+    if (isLoadingChain || isLoadingQuestion) {
       window.scrollTo({ top: 10000, behavior: 'smooth' });
     }
-  }, [isLoadingData, isLoadingQuestion]);
+  }, [isLoadingChain, isLoadingQuestion]);
 
   useEffect(() => {
     if (search !== null) {
       if (search === 'sample1') {
         dispatch({
           type: SET_STATIC_DATA,
-          payload: { promptList: DUMMY[0].promptList, addQuestion: DUMMY[0].addQuestion },
+          payload: { promptList: DUMMY[0].promptList, relation: DUMMY[0].relation },
         });
       } else if (search === 'sample2') {
         dispatch({
           type: SET_STATIC_DATA,
-          payload: { promptList: DUMMY[1].promptList, addQuestion: DUMMY[1].addQuestion },
+          payload: { promptList: DUMMY[1].promptList, relation: DUMMY[1].relation },
         });
       } else if (search === 'sample3') {
         dispatch({
           type: SET_STATIC_DATA,
-          payload: { promptList: DUMMY[2].promptList, addQuestion: DUMMY[2].addQuestion },
+          payload: { promptList: DUMMY[2].promptList, relation: DUMMY[2].relation },
         });
       } else {
-        dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: data, input: search } });
-        dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: data, input: search } });
+        dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: chain, input: search } });
+        dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: chain, input: search } });
       }
     }
     if (prompt !== null) {
@@ -145,11 +145,11 @@ export default function index({ search, prompt }: TProps) {
 
   // Render Item
   const renderItem = useCallback(
-    (data: any) => {
+    (chain: any) => {
       return (
         <ItemWrapper>
           <PromptBox>
-            <h2>{data.prompt}</h2>
+            <h2>{chain.prompt}</h2>
           </PromptBox>
           <ReplyBox>
             <LineBox>
@@ -158,16 +158,16 @@ export default function index({ search, prompt }: TProps) {
                 <p>AI의 답변이에요</p>
               </div>
             </LineBox>
-            <p>{data.answer}</p>
+            <p>{chain.answer}</p>
           </ReplyBox>
         </ItemWrapper>
       );
     },
-    [data, addQuestion],
+    [chain, relation],
   );
 
-  const renderAddQuestion = useCallback(() => {
-    if (addQuestion !== null && !isLoadingQuestion) {
+  const renderRelation = useCallback(() => {
+    if (relation !== null && !isLoadingQuestion) {
       return (
         <ItemWrapper>
           <LineBox>
@@ -175,15 +175,15 @@ export default function index({ search, prompt }: TProps) {
               <img src={'static/add_question.png'} alt="reply" />
               <p>이런 추가 질문은 어때요?</p>
             </div>
-            <img src={'static/button-reload.png'} alt="reload" onClick={onClickAddQuestionReload} />
+            <img src={'static/button-reload.png'} alt="reload" onClick={onClickRelationReload} />
           </LineBox>
-          {addQuestion
+          {relation
             .replace(/[1-9]. |"|-|- /g, '')
             .replace(/\n\n/g, '\n')
             .split('\n')
             .filter(line => line.length > 0 || line !== ' ')
             .map((line, index) => (
-              <QuestionBox key={index} onClick={() => onClickAddData(line)}>
+              <QuestionBox key={index} onClick={() => onClickAddChain(line)}>
                 <p>{`${index + 1}. ${line}`}</p>
                 <img src={'static/plus.png'} alt="add" />
               </QuestionBox>
@@ -205,12 +205,12 @@ export default function index({ search, prompt }: TProps) {
         </ItemWrapper>
       );
     }
-  }, [data, addQuestion, isLoadingQuestion]);
+  }, [chain, relation, isLoadingQuestion]);
 
   // Render List
   const renderList = useCallback(() => {
-    if (data) {
-      return data.map((item, index) => <ListWrapper key={index}>{renderItem(item)}</ListWrapper>);
+    if (chain) {
+      return chain.map((item, index) => <ListWrapper key={index}>{renderItem(item)}</ListWrapper>);
     } else {
       return (
         <ItemWrapper>
@@ -229,7 +229,7 @@ export default function index({ search, prompt }: TProps) {
         </ItemWrapper>
       );
     }
-  }, [data]);
+  }, [chain]);
 
   return (
     <Wrapper>
@@ -244,7 +244,7 @@ export default function index({ search, prompt }: TProps) {
         </div>
       </HeaderArea>
       <ContentArea>{renderList()}</ContentArea>
-      <SkeletonArea attrVisibility={data !== null && isLoadingData}>
+      <SkeletonArea attrVisibility={chain !== null && isLoadingChain}>
         <ItemWrapper>
           <SkeletonPrompt />
           <ReplyBox>
@@ -260,7 +260,7 @@ export default function index({ search, prompt }: TProps) {
           </ReplyBox>
         </ItemWrapper>
       </SkeletonArea>
-      <AddQuestionArea>{renderAddQuestion()}</AddQuestionArea>
+      <RelationArea>{renderRelation()}</RelationArea>
       <AddPromptArea>
         <SearchBox>
           <InputBox
@@ -277,7 +277,7 @@ export default function index({ search, prompt }: TProps) {
             <img src={'static/arrow-enter.png'} alt="enter" onClick={onClickSearch} />
           </ButtonBox>
           <CloseBox attrVisibility={input.length > 0} onClick={() => setInput('')}>
-            <img src={'static/button_close.png'} alt="close" />
+            <img src={'static/button-close.png'} alt="close" />
           </CloseBox>
         </SearchBox>
       </AddPromptArea>
@@ -330,7 +330,7 @@ const ContentArea = styled.section`
   border-right: 1px solid #202020;
 `;
 
-const AddQuestionArea = styled.section`
+const RelationArea = styled.section`
   ${({ theme }) => theme.flexSet('flex-start', 'flex-start', 'column')};
   ${({ theme }) => theme.boxSet('100%', 'auto', '0px')};
   max-width: 800px;

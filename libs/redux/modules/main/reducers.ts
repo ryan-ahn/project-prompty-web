@@ -5,17 +5,19 @@ import * as actions from './actions';
 export type Actions = ActionType<typeof actions>;
 
 export type TMainReducer = {
-  data: TPromptList | null;
-  addQuestion: string | null;
-  isLoadingData: boolean;
+  recommend: string | null;
+  chain: TPromptList | null;
+  relation: string | null;
+  isLoadingChain: boolean;
   isLoadingQuestion: boolean;
   isLoadingCreatePrompt: boolean;
 };
 
 export const initialState: TMainReducer = {
-  data: null,
-  addQuestion: null,
-  isLoadingData: false,
+  recommend: null,
+  chain: null,
+  relation: null,
+  isLoadingChain: false,
   isLoadingQuestion: false,
   isLoadingCreatePrompt: false,
 };
@@ -23,31 +25,47 @@ export const initialState: TMainReducer = {
 const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
   [actions.INIT_THREAD]: state => ({
     ...state,
-    data: null,
-    addQuestion: null,
-    isLoadingData: false,
+    recommend: null,
+    chain: null,
+    relation: null,
+    isLoadingRecommend: false,
+    isLoadingChain: false,
     isLoadingQuestion: false,
     isLoadingCreatePrompt: false,
   }),
 
   [actions.SET_STATIC_DATA]: (state, action) => ({
     ...state,
-    data: action.payload.promptList,
-    addQuestion: action.payload.addQuestion,
+    chain: action.payload.promptList,
+    relation: action.payload.relation,
+  }),
+
+  [actions.GET_GPT_RECOMMEND_REQUEST]: state => ({
+    ...state,
+    isLoadingRecommend: true,
+  }),
+  [actions.GET_GPT_RECOMMEND_SUCCESS]: (state, action) => ({
+    ...state,
+    recommend: action.payload,
+    isLoadingRecommend: false,
+  }),
+  [actions.GET_GPT_RECOMMEND_FAILURE]: state => ({
+    ...state,
+    isLoadingRecommend: false,
   }),
 
   [actions.POST_GPT_CHAIN_REQUEST]: state => ({
     ...state,
-    isLoadingData: true,
+    isLoadingChain: true,
   }),
   [actions.POST_GPT_CHAIN_SUCCESS]: (state, action) => ({
     ...state,
-    data: state.data !== null ? [...state.data!, action.payload] : [action.payload],
-    isLoadingData: false,
+    chain: state.chain !== null ? [...state.chain!, action.payload] : [action.payload],
+    isLoadingChain: false,
   }),
   [actions.POST_GPT_CHAIN_FAILURE]: state => ({
     ...state,
-    isLoadingData: false,
+    isLoadingChain: false,
   }),
 
   [actions.POST_GPT_RELATION_REQUEST]: state => ({
@@ -56,7 +74,7 @@ const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
   }),
   [actions.POST_GPT_RELATION_SUCCESS]: (state, action) => ({
     ...state,
-    addQuestion: action.payload,
+    relation: action.payload,
     isLoadingQuestion: false,
   }),
   [actions.POST_GPT_RELATION_FAILURE]: state => ({
@@ -83,7 +101,7 @@ const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
   }),
   [actions.GET_PROMPT_SUCCESS]: (state, action) => ({
     ...state,
-    data: action.payload.promptList,
+    chain: action.payload.promptList,
     isLoadingCreatePrompt: false,
   }),
   [actions.GET_PROMPT_FAILURE]: state => ({

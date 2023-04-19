@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { createAction, createAsyncAction } from 'typesafe-actions';
+import { EmptyAction, createAction, createAsyncAction } from 'typesafe-actions';
 import * as types from './types';
 import { TSetStaticData } from './types';
 
@@ -11,6 +11,16 @@ export const initThread = createAction(INIT_THREAD)();
 
 export const SET_STATIC_DATA = 'SET_STATIC_DATA';
 export const setStaticData = createAction(SET_STATIC_DATA)<TSetStaticData>();
+
+export const GET_GPT_RECOMMEND_URL = `${API_HOST}/gpt/recommend`;
+export const GET_GPT_RECOMMEND_REQUEST = 'GET_GPT_RECOMMEND_REQUEST';
+export const GET_GPT_RECOMMEND_SUCCESS = 'GET_GPT_RECOMMEND_SUCCESS';
+export const GET_GPT_RECOMMEND_FAILURE = 'GET_GPT_RECOMMEND_FAILURE';
+export const getGptRecommendAction = createAsyncAction(
+  GET_GPT_RECOMMEND_REQUEST,
+  GET_GPT_RECOMMEND_SUCCESS,
+  GET_GPT_RECOMMEND_FAILURE,
+)<EmptyAction<never>, string, AxiosError>();
 
 export const POST_GPT_CHAIN_URL = `${API_HOST}/gpt/chain`;
 export const POST_GPT_CHAIN_REQUEST = 'POST_GPT_CHAIN_REQUEST';

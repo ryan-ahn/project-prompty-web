@@ -5,13 +5,13 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
 import { DUMMY } from '@common/data';
-import { INIT_THREAD } from '@libs/redux/modules/main/actions';
-import axios from 'axios';
+import { GET_GPT_RECOMMEND_REQUEST } from '@libs/redux/modules/main/actions';
+import { RootState } from '@libs/redux/modules';
 
 type TFocus = {
   attrFocus: boolean;
@@ -22,6 +22,9 @@ type TVisibility = {
 };
 
 export default function MainIndex() {
+  // Root State
+  const { recommend } = useSelector((state: RootState) => state.main);
+  console.log(recommend);
   // State
   const [input, setInput] = useState<string>('');
   const [focus, setFocus] = useState<boolean>(false);
@@ -57,10 +60,18 @@ export default function MainIndex() {
     [input],
   );
 
+  const onClickDispatchGptRecommend = useCallback(() => {
+    dispatch({ type: GET_GPT_RECOMMEND_REQUEST });
+  }, []);
+
   useEffect(() => {
     if (inputRef !== null && inputRef.current !== null) {
       inputRef.current.focus();
     }
+  }, []);
+
+  useEffect(() => {
+    onClickDispatchGptRecommend();
   }, []);
 
   // Render Item
@@ -104,16 +115,20 @@ export default function MainIndex() {
               <img src={'static/arrow-enter.png'} alt="enter" onClick={onClickSearch} />
             </ButtonBox>
             <CloseBox attrVisibility={input.length > 0} onClick={() => setInput('')}>
-              <img src={'static/button_close.png'} alt="close" />
+              <img src={'static/button-close.png'} alt="close" />
             </CloseBox>
           </SearchBox>
           <PopularBlock>
             <LineHeader>
               <div>
                 <img src={'static/popular.png'} alt="popular" />
-                <p>인기있는 질문</p>
+                <p>AI가 추천하는 질문</p>
               </div>
-              <img src={'static/filter.png'} alt="filter" />
+              <img
+                src={'static/button-reload.png'}
+                alt="reload"
+                onClick={onClickDispatchGptRecommend}
+              />
             </LineHeader>
             <ListBox>{renderList()}</ListBox>
           </PopularBlock>
