@@ -128,7 +128,7 @@ export default function index({ search, prompt }: TProps) {
       }
     }
     if (prompt !== null) {
-      dispatch({ type: GET_PROMPT_REQUEST, payload: prompt });
+      dispatch({ type: GET_PROMPT_REQUEST, payload: { id: prompt } });
     }
   }, [search, prompt]);
 

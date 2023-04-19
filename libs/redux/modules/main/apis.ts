@@ -28,7 +28,7 @@ export async function postGptRelationApi(payload: types.TPostGptRelationReq) {
   }
 }
 
-export async function postPromptListApi(payload: types.TPostPromptReq) {
+export async function postPromptApi(payload: types.TPostPromptReq) {
   try {
     const response = await axios.post(`${actions.POST_PROMPT_URL}`, payload);
     const result: types.TPostPromptRes = JSON.parse(JSON.stringify(response.data)).data;
@@ -38,7 +38,7 @@ export async function postPromptListApi(payload: types.TPostPromptReq) {
   }
 }
 
-export async function getPromptListApi(payload: types.TGetPromptReq) {
+export async function getPromptApi(payload: types.TGetPromptReq) {
   try {
     const response = await axios.get(`${actions.POST_PROMPT_URL}/${payload.id}`);
     const result: types.TGetPromptRes = JSON.parse(JSON.stringify(response.data)).data;

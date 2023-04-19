@@ -3,7 +3,8 @@ import { createAction, createAsyncAction } from 'typesafe-actions';
 import * as types from './types';
 import { TSetStaticData } from './types';
 
-const API_HOST = 'https://api.prompty.im/v1';
+const API_HOST =
+  process.env.NODE_ENV === 'development' ? 'http://localhost:5555/v1' : 'https://api.prompty.im/v1';
 
 export const INIT_THREAD = 'INIT_THREAD';
 export const initThread = createAction(INIT_THREAD)();

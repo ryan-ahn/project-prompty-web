@@ -50,12 +50,12 @@ function* watchGptRelation() {
 
 function* postPromptSaga(action: PayloadAction<'POST_PROMPT_REQUEST', types.TPostPromptReq>) {
   try {
-    const result: types.TPostPromptRes = yield call(apis.postPromptListApi, action.payload);
+    const result: types.TPostPromptRes = yield call(apis.postPromptApi, action.payload);
     yield put({
       type: actions.POST_PROMPT_SUCCESS,
       payload: result,
     });
-    yield call(Router.push, `/threads?prompt=${result.id}`);
+    yield call(Router.push, `/threads?prompt=${result._id}`);
     yield put({
       type: OPEN_TOAST,
       payload: '링크를 복사하세요.',
@@ -74,10 +74,14 @@ function* watchPostPrompt() {
 
 function* getPromptSaga(action: PayloadAction<'GET_PROMPT_REQUEST', types.TGetPromptReq>) {
   try {
-    const result: types.TGetPromptRes = yield call(apis.getPromptListApi, action.payload);
+    const result: types.TGetPromptRes = yield call(apis.getPromptApi, action.payload);
     yield put({
       type: actions.GET_PROMPT_SUCCESS,
       payload: result,
+    });
+    yield put({
+      type: actions.POST_GPT_RELATION_REQUEST,
+      payload: { input: result.promptList[0].prompt },
     });
   } catch (e) {
     console.log(e);

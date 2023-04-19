@@ -29,7 +29,7 @@ export type TPostGptRelationRes = string;
 
 export type TPostPromptReq = { promptList: TPromptList };
 
-export type TPostPromptRes = { id: string };
+export type TPostPromptRes = { _id: string };
 
 export type TGetPromptReq = { id: string };
 

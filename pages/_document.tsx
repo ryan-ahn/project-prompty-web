@@ -46,7 +46,6 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
             rel="stylesheet"
           />
-          <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
           <meta
             name="google-site-verification"
             content="3FuUbOQX1_tXA115sYEmVB7dz6LoSawrXGlQr8MBVNo"
