@@ -8,6 +8,7 @@ export type TMainReducer = {
   recommend: string | null;
   chain: TPromptList | null;
   relation: string | null;
+  isLoadingRecommend: boolean;
   isLoadingChain: boolean;
   isLoadingQuestion: boolean;
   isLoadingCreatePrompt: boolean;
@@ -17,6 +18,7 @@ export const initialState: TMainReducer = {
   recommend: null,
   chain: null,
   relation: null,
+  isLoadingRecommend: false,
   isLoadingChain: false,
   isLoadingQuestion: false,
   isLoadingCreatePrompt: false,

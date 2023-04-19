@@ -12,6 +12,7 @@ import styled, { css } from 'styled-components';
 import { DUMMY } from '@common/data';
 import { GET_GPT_RECOMMEND_REQUEST } from '@libs/redux/modules/main/actions';
 import { RootState } from '@libs/redux/modules';
+import LoadingSpinner from '@components/loading/Spinner';
 
 type TFocus = {
   attrFocus: boolean;
@@ -23,8 +24,7 @@ type TVisibility = {
 
 export default function MainIndex() {
   // Root State
-  const { recommend } = useSelector((state: RootState) => state.main);
-  console.log(recommend);
+  const { recommend, isLoadingRecommend } = useSelector((state: RootState) => state.main);
   // State
   const [input, setInput] = useState<string>('');
   const [focus, setFocus] = useState<boolean>(false);
@@ -41,8 +41,8 @@ export default function MainIndex() {
     [input],
   );
 
-  const onClickRouteToThreads = useCallback((id: number) => {
-    router.push(`/threads/?search=sample${id + 1}`);
+  const onClickRouteToThreads = useCallback((keyword: number) => {
+    router.push(`/threads/?search=${keyword}`);
   }, []);
 
   const onClickSearch = useCallback(() => {
@@ -75,19 +75,39 @@ export default function MainIndex() {
   }, []);
 
   // Render Item
-  const renderItem = useCallback((data: any) => {
+  const renderItem = useCallback((line: any, index: number) => {
     return (
-      <ItemWrapper onClick={() => onClickRouteToThreads(data.id)}>
-        <h2>{data.promptList[0].prompt}</h2>
-        <p>{data.promptList[0].answer}</p>
+      <ItemWrapper onClick={() => onClickRouteToThreads(line)}>
+        <h2>{`${index + 1}. ${line}`}</h2>
       </ItemWrapper>
     );
   }, []);
 
   // Render List
   const renderList = useCallback(() => {
-    return DUMMY.map(item => <div key={item.id}>{renderItem(item)}</div>);
-  }, []);
+    if (recommend !== null && !isLoadingRecommend) {
+      return recommend
+        .replace(/[1-9]. |"|-|- /g, '')
+        .replace(/\n\n/g, '\n')
+        .split('\n')
+        .filter(line => line.length > 0 || line !== ' ')
+        .map((item, index) => <div key={index}>{renderItem(item, index)}</div>);
+    } else {
+      return (
+        <>
+          <ItemSkeleton>
+            <LoadingSpinner />
+          </ItemSkeleton>
+          <ItemSkeleton>
+            <LoadingSpinner />
+          </ItemSkeleton>
+          <ItemSkeleton>
+            <LoadingSpinner />
+          </ItemSkeleton>
+        </>
+      );
+    }
+  }, [recommend, isLoadingRecommend]);
 
   return (
     <Wrapper>
@@ -295,7 +315,7 @@ const ListBox = styled.div`
 `;
 
 const ItemWrapper = styled.div`
-  ${({ theme }) => theme.boxSet('240px', 'auto', '12px')};
+  ${({ theme }) => theme.boxSet('240px', '110px', '12px')};
   ${({ theme }) => theme.flexSet('flex-start', 'flex-start', 'column')};
   padding: 20px 15px;
   border: 1px solid #606060;
@@ -306,26 +326,24 @@ const ItemWrapper = styled.div`
   }
   & > h2 {
     display: -webkit-box;
-    margin-bottom: 5px;
     color: #f1f1f1;
     overflow: hidden;
     ${({ theme }) => theme.fontSet(14, 500, 24)};
     text-overflow: ellipsis;
     white-space: pre-wrap;
     word-break: break-all;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
-  & > p {
-    display: -webkit-box;
-    overflow: hidden;
-    color: #c1c1c1;
-    ${({ theme }) => theme.fontSet(14, 100, 20)};
-    text-overflow: ellipsis;
-    white-space: pre-wrap;
-    word-break: break-all;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+`;
+
+const ItemSkeleton = styled.div`
+  ${({ theme }) => theme.boxSet('240px', '110px', '12px')};
+  ${({ theme }) => theme.flexSet('center', 'center', 'row')};
+  border: 1px solid #606060;
+  background-color: #202020;
+  @media (max-width: 800px) {
+    width: 100%;
   }
 `;
 
