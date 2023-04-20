@@ -10,6 +10,12 @@ export type TSetStaticData = {
   relation: string;
 };
 
+export type TPostGptRecommendReq = {
+  input: string;
+};
+
+export type TPostGptRecommendRes = string;
+
 export type TPostGptChainReq = {
   assistant: Array<{ prompt: string; answer: string }>;
   input: string;

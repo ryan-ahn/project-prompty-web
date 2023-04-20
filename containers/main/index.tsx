@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
-import { DUMMY } from '@common/data';
-import { GET_GPT_RECOMMEND_REQUEST } from '@libs/redux/modules/main/actions';
+import { DUMMY, TAG_LIST } from '@common/data';
+import { POST_GPT_RECOMMEND_REQUEST } from '@libs/redux/modules/main/actions';
 import { RootState } from '@libs/redux/modules';
 import LoadingSpinner from '@components/loading/Spinner';
 
@@ -22,9 +22,14 @@ type TVisibility = {
   attrVisibility: boolean;
 };
 
+type TActive = {
+  attrActive: boolean;
+};
+
 export default function MainIndex() {
   // Root State
   const { recommend, isLoadingRecommend } = useSelector((state: RootState) => state.main);
+  const [tag, setTag] = useState('지식');
   // State
   const [input, setInput] = useState<string>('');
   const [focus, setFocus] = useState<boolean>(false);
@@ -61,8 +66,8 @@ export default function MainIndex() {
   );
 
   const onClickDispatchGptRecommend = useCallback(() => {
-    dispatch({ type: GET_GPT_RECOMMEND_REQUEST });
-  }, []);
+    dispatch({ type: POST_GPT_RECOMMEND_REQUEST, payload: { input: tag } });
+  }, [tag]);
 
   useEffect(() => {
     if (inputRef !== null && inputRef.current !== null) {
@@ -72,7 +77,7 @@ export default function MainIndex() {
 
   useEffect(() => {
     onClickDispatchGptRecommend();
-  }, []);
+  }, [tag]);
 
   // Render Item
   const renderItem = useCallback((line: any, index: number) => {
@@ -108,6 +113,14 @@ export default function MainIndex() {
       );
     }
   }, [recommend, isLoadingRecommend]);
+
+  const renderTagList = useCallback(() => {
+    return TAG_LIST.map(item => (
+      <TagItem key={item.id} attrActive={tag === item.name} onClick={() => setTag(item.name)}>
+        {item.name}
+      </TagItem>
+    ));
+  }, [tag]);
 
   return (
     <Wrapper>
@@ -150,6 +163,7 @@ export default function MainIndex() {
                 onClick={onClickDispatchGptRecommend}
               />
             </LineHeader>
+            <TagBox>{renderTagList()}</TagBox>
             <ListBox>{renderList()}</ListBox>
           </PopularBlock>
         </ContentBolck>
@@ -251,7 +265,7 @@ const ButtonBox = styled.button`
   right: 7px;
   ${({ theme }) => theme.flexSet('center', 'center', 'row')};
   ${({ theme }) => theme.boxSet('55px', '55px', '50%')};
-  background: linear-gradient(to top, #2af499, #009ffc);
+  background-color: #009ffc;
   cursor: pointer;
   :hover {
     opacity: 0.8;
@@ -288,10 +302,11 @@ const PopularBlock = styled.div`
 
 const LineHeader = styled.div`
   ${({ theme }) => theme.flexSet('space-between', 'center', 'row')};
-  ${({ theme }) => theme.boxSet('100%', '60px', '0px')};
+  ${({ theme }) => theme.boxSet('100%', 'auto', '0px')};
   border-bottom: 0.5px solid #606060;
   & > div {
     ${({ theme }) => theme.flexSet('center', 'center', 'row')};
+    padding: 5px 0;
     & > img {
       ${({ theme }) => theme.boxSet('auto', '25px', '0px')};
       margin-right: 8px;
@@ -310,7 +325,6 @@ const ListBox = styled.div`
   ${({ theme }) => theme.flexSet('center', 'center', 'row')};
   ${({ theme }) => theme.boxSet('100%', '100%', '0px')};
   flex-wrap: wrap;
-  padding: 20px 0;
   gap: 20px;
 `;
 
@@ -379,4 +393,31 @@ const BottomContent = styled.div`
       }
     }
   }
+`;
+
+const TagBox = styled.div`
+  ${({ theme }) => theme.flexSet('flex-start', 'center', 'row')};
+  ${({ theme }) => theme.boxSet('100%', '100%', '0px')};
+  padding: 15px 0;
+  overflow-x: scroll;
+  gap: 7px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const TagItem = styled.p<TActive>`
+  padding: 7px 12px;
+  border: 1px solid #b1b1b1;
+  border-radius: 15px;
+  cursor: pointer;
+  ${props =>
+    props.attrActive &&
+    css`
+      color: white;
+      background-color: #009ffc;
+      border: 1px solid #009ffc;
+    `}
 `;

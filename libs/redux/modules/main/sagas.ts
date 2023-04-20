@@ -6,23 +6,25 @@ import * as types from './types';
 import { PayloadAction } from 'typesafe-actions';
 import { OPEN_TOAST } from '../toast/actions';
 
-function* getGptRecommendSaga() {
+function* postGptRecommendSaga(
+  action: PayloadAction<'POST_GPT_RECOMMEND_REQUEST', types.TPostGptRecommendReq>,
+) {
   try {
-    const result: string = yield call(apis.getGptRecommendApi);
+    const result: string = yield call(apis.postGptRecommendApi, action.payload);
     yield put({
-      type: actions.GET_GPT_RECOMMEND_SUCCESS,
+      type: actions.POST_GPT_RECOMMEND_SUCCESS,
       payload: result,
     });
   } catch (e) {
     console.log(e);
     yield put({
-      type: actions.GET_GPT_RECOMMEND_FAILURE,
+      type: actions.POST_GPT_RECOMMEND_FAILURE,
       error: e,
     });
   }
 }
 function* watchGptRecommend() {
-  yield takeLatest(actions.GET_GPT_RECOMMEND_REQUEST, getGptRecommendSaga);
+  yield takeLatest(actions.POST_GPT_RECOMMEND_REQUEST, postGptRecommendSaga);
 }
 
 function* postGptChainSaga(

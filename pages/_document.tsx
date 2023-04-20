@@ -48,7 +48,7 @@ export default class MyDocument extends Document {
           />
           <meta
             name="google-site-verification"
-            content="3FuUbOQX1_tXA115sYEmVB7dz6LoSawrXGlQr8MBVNo"
+            content="7DjeWBjb0IBf0iAMjq_k-uhg1i96SG06nWGfwYTc2sU"
           />
           <script
             async

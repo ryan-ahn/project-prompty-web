@@ -56,3 +56,11 @@ export const DUMMY = [
       '1. 대략적인 비용이 어느 정도 발생할까요?\n2. 그날 날씨가 괜찮을까요?\n3. 3일차에 마실 맥주를 미리 추천해줄 수 있을까요?',
   },
 ];
+
+export const TAG_LIST = [
+  { id: 0, name: '지식' },
+  { id: 1, name: '여행' },
+  { id: 2, name: '주식' },
+  { id: 4, name: '게임' },
+  { id: 5, name: '개발' },
+];

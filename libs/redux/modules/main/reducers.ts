@@ -42,16 +42,16 @@ const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
     relation: action.payload.relation,
   }),
 
-  [actions.GET_GPT_RECOMMEND_REQUEST]: state => ({
+  [actions.POST_GPT_RECOMMEND_REQUEST]: state => ({
     ...state,
     isLoadingRecommend: true,
   }),
-  [actions.GET_GPT_RECOMMEND_SUCCESS]: (state, action) => ({
+  [actions.POST_GPT_RECOMMEND_SUCCESS]: (state, action) => ({
     ...state,
     recommend: action.payload,
     isLoadingRecommend: false,
   }),
-  [actions.GET_GPT_RECOMMEND_FAILURE]: state => ({
+  [actions.POST_GPT_RECOMMEND_FAILURE]: state => ({
     ...state,
     isLoadingRecommend: false,
   }),
