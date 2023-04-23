@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
-import { DUMMY, TAG_LIST } from '@common/data';
+import { TAG_LIST } from '@common/data';
 import { POST_GPT_RECOMMEND_REQUEST } from '@libs/redux/modules/main/actions';
 import { RootState } from '@libs/redux/modules';
 import LoadingSpinner from '@components/loading/Spinner';

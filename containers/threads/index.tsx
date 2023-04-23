@@ -8,14 +8,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import { TProps } from 'pages/threads';
-import { DUMMY } from '@common/data';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@libs/redux/modules';
 import {
   POST_GPT_CHAIN_REQUEST,
   POST_GPT_RELATION_REQUEST,
   INIT_THREAD,
-  SET_STATIC_DATA,
   POST_PROMPT_REQUEST,
   GET_PROMPT_REQUEST,
 } from '@libs/redux/modules/main/actions';
@@ -99,6 +97,15 @@ export default function index({ search, prompt }: TProps) {
     router.push('/');
   }, []);
 
+  const routeChangeStart = useCallback(() => {
+    dispatch({ type: INIT_THREAD });
+  }, []);
+
+  const onClickEmTagPushEvent = useCallback((tagHtml: HTMLElement) => {
+    console.log(tagHtml.innerHTML);
+    onClickAddChain(tagHtml.innerHTML);
+  }, []);
+
   useEffect(() => {
     if (isLoadingChain || isLoadingQuestion) {
       window.scrollTo({ top: 10000, behavior: 'smooth' });
@@ -107,34 +114,13 @@ export default function index({ search, prompt }: TProps) {
 
   useEffect(() => {
     if (search !== null) {
-      if (search === 'sample1') {
-        dispatch({
-          type: SET_STATIC_DATA,
-          payload: { promptList: DUMMY[0].promptList, relation: DUMMY[0].relation },
-        });
-      } else if (search === 'sample2') {
-        dispatch({
-          type: SET_STATIC_DATA,
-          payload: { promptList: DUMMY[1].promptList, relation: DUMMY[1].relation },
-        });
-      } else if (search === 'sample3') {
-        dispatch({
-          type: SET_STATIC_DATA,
-          payload: { promptList: DUMMY[2].promptList, relation: DUMMY[2].relation },
-        });
-      } else {
-        dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: chain, input: search } });
-        dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: chain, input: search } });
-      }
+      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: chain, input: search } });
+      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: chain, input: search } });
     }
     if (prompt !== null) {
       dispatch({ type: GET_PROMPT_REQUEST, payload: { id: prompt } });
     }
   }, [search, prompt]);
-
-  const routeChangeStart = useCallback(() => {
-    dispatch({ type: INIT_THREAD });
-  }, []);
 
   useEffect(() => {
     router.events.on('routeChangeStart', routeChangeStart);
@@ -142,6 +128,15 @@ export default function index({ search, prompt }: TProps) {
       router.events.off('routeChangeStart', routeChangeStart);
     };
   }, [router.events]);
+
+  useEffect(() => {
+    if (chain !== null) {
+      const getEmTag = document.getElementsByTagName('em');
+      for (let i = 0; i < getEmTag.length; i++) {
+        getEmTag[i].addEventListener('click', () => onClickEmTagPushEvent(getEmTag[i]));
+      }
+    }
+  }, [chain]);
 
   // Render Item
   const renderItem = useCallback(
@@ -158,7 +153,7 @@ export default function index({ search, prompt }: TProps) {
                 <p>AI의 답변이에요</p>
               </div>
             </LineBox>
-            <p>{chain.answer}</p>
+            <p id="answer" dangerouslySetInnerHTML={{ __html: chain.answer }} />
           </ReplyBox>
         </ItemWrapper>
       );
@@ -371,6 +366,12 @@ const ReplyBox = styled.div`
     ${({ theme }) => theme.fontSet(15, 400, 25)};
     white-space: pre-wrap;
     word-break: break-all;
+    & > em {
+      color: #ffc7a5;
+      font-weight: 700;
+      padding: 0 2px;
+      cursor: pointer;
+    }
   }
 `;
 
