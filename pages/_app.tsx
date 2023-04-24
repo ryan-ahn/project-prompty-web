@@ -4,7 +4,8 @@
  * Desc : _app
  */
 
-import App, { AppContext, AppProps } from 'next/app';
+import { AppProps } from 'next/app';
+import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@styles/global';
 import { wrapper } from '@libs/redux/store';
@@ -15,7 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <SessionProvider session={pageProps.session}>
+          <Component {...pageProps} />
+        </SessionProvider>
       </ThemeProvider>
     </>
   );

@@ -7,6 +7,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
 import { TAG_LIST } from '@common/data';
@@ -27,6 +28,7 @@ type TActive = {
 };
 
 export default function MainIndex() {
+  const { data: session, status } = useSession();
   // Root State
   const { recommend, isLoadingRecommend } = useSelector((state: RootState) => state.main);
   const [tag, setTag] = useState('지식');
@@ -48,6 +50,10 @@ export default function MainIndex() {
 
   const onClickRouteToThreads = useCallback((keyword: number) => {
     router.push(`/threads/?search=${keyword}`);
+  }, []);
+
+  const onClickRouteToSignin = useCallback(() => {
+    router.push('/signin');
   }, []);
 
   const onClickSearch = useCallback(() => {
@@ -88,6 +94,32 @@ export default function MainIndex() {
     );
   }, []);
 
+  const renderUser = useCallback(() => {
+    switch (status) {
+      case 'authenticated':
+        if (session && session.user && session.user.image) {
+          return (
+            <UserBox onClick={() => signOut()}>
+              <img src={session.user.image} alt="user" />
+            </UserBox>
+          );
+        }
+      case 'loading':
+        return (
+          <UserBox>
+            <LoadingSpinner size={20} />
+          </UserBox>
+        );
+      case 'unauthenticated':
+        return (
+          <SigninBox onClick={onClickRouteToSignin}>
+            <p>Sign In</p>
+          </SigninBox>
+        );
+    }
+    return;
+  }, [session, status]);
+
   // Render List
   const renderList = useCallback(() => {
     if (recommend !== null && !isLoadingRecommend) {
@@ -126,6 +158,7 @@ export default function MainIndex() {
     <Wrapper>
       <HeaderArea>
         <img src={'static/logo.png'} alt="logo" />
+        {renderUser()}
       </HeaderArea>
       <ContentArea>
         <ContentBolck>
@@ -198,7 +231,7 @@ const Wrapper = styled.div`
 
 const HeaderArea = styled.nav`
   position: fixed;
-  ${({ theme }) => theme.flexSet('flex-start', 'center', 'row')};
+  ${({ theme }) => theme.flexSet('space-between', 'center', 'row')};
   ${({ theme }) => theme.boxSet('100%', '55px', '0px')};
   padding: 0 20px;
   border-bottom: 1px solid #202020;
@@ -420,4 +453,24 @@ const TagItem = styled.p<TActive>`
       background-color: #009ffc;
       border: 1px solid #009ffc;
     `}
+`;
+
+const UserBox = styled.div`
+  ${({ theme }) => theme.flexSet('center', 'center', 'row')};
+  ${({ theme }) => theme.boxSet('40px', '40px', '5px')};
+  overflow: hidden;
+  cursor: pointer;
+  & > img {
+    width: 40px;
+  }
+`;
+
+const SigninBox = styled.div`
+  ${({ theme }) => theme.flexSet('center', 'center', 'row')};
+  ${({ theme }) => theme.boxSet('80px', '35px', '5px')};
+  ${({ theme }) => theme.colorSet('white', '#009ffc')};
+  cursor: pointer;
+  & > p {
+    ${({ theme }) => theme.fontSet(13, 400, 20)};
+  }
 `;

@@ -7,10 +7,10 @@
 import styled from 'styled-components';
 import { DotSpinner } from '@uiball/loaders';
 
-export default function LoadingSpinner() {
+export default function LoadingSpinner({ size = 40 }) {
   return (
     <Wrapper>
-      <DotSpinner size={40} speed={0.9} color="white" />
+      <DotSpinner size={size} speed={0.9} color="white" />
     </Wrapper>
   );
 }

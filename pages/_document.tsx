@@ -50,6 +50,7 @@ export default class MyDocument extends Document {
             name="google-site-verification"
             content="7DjeWBjb0IBf0iAMjq_k-uhg1i96SG06nWGfwYTc2sU"
           />
+          <script src="https://accounts.google.com/gsi/client" async defer></script>
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
