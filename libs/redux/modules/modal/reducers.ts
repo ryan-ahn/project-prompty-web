@@ -4,7 +4,6 @@
  * Desc : reducers
  */
 
-import { TPrompt } from '@libs/models/graphql';
 import { createReducer, ActionType } from 'typesafe-actions';
 import * as actions from './actions';
 import { TModalMode } from './types';
@@ -14,7 +13,6 @@ export type Actions = ActionType<typeof actions>;
 export type TModalReducer = {
   modalMode: TModalMode;
   isOpenModal: boolean;
-  prompt: TPrompt | null;
   gpt: string | null;
   response: null | string;
   isLoading: boolean;
@@ -23,7 +21,6 @@ export type TModalReducer = {
 export const initialState: TModalReducer = {
   modalMode: 'UNSET',
   isOpenModal: false,
-  prompt: null,
   gpt: null,
   response: null,
   isLoading: false,
@@ -41,12 +38,6 @@ const mainReducer = createReducer<TModalReducer, Actions>(initialState, {
   [actions.OPEN_MODAL]: (state, action) => ({
     ...state,
     modalMode: action.payload,
-    isOpenModal: true,
-  }),
-  [actions.OPEN_PROMPT_MODAL]: (state, action) => ({
-    ...state,
-    modalMode: 'PROMPT',
-    prompt: action.payload,
     isOpenModal: true,
   }),
   [actions.OPEN_CHAT_GPT_MODAL]: (state, action) => ({

@@ -16,9 +16,6 @@ export const openModal = createAction(OPEN_MODAL)<types.TModalMode>();
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const closeModal = createAction(CLOSE_MODAL)();
 
-export const OPEN_PROMPT_MODAL = 'OPEN_PROMPT_MODAL';
-export const openPromptModal = createAction(OPEN_PROMPT_MODAL)<types.TPromptModal>();
-
 export const OPEN_CHAT_GPT_MODAL = 'OPEN_CHAT_GPT_MODAL';
 export const openChatGptModal = createAction(OPEN_CHAT_GPT_MODAL)<string>();
 

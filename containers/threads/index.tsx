@@ -102,7 +102,6 @@ export default function index({ search, prompt }: TProps) {
   }, []);
 
   const onClickEmTagPushEvent = useCallback((tagHtml: HTMLElement) => {
-    console.log(tagHtml.innerHTML);
     onClickAddChain(tagHtml.innerHTML);
   }, []);
 
