@@ -10,11 +10,6 @@ import connectDB from '@libs/utils/connectDB';
 
 connectDB();
 
-type TRedirect = {
-  url: string;
-  baseUrl: string;
-};
-
 const nextAuthOptions = (req: any, res: any) => {
   return {
     providers: [
@@ -23,12 +18,7 @@ const nextAuthOptions = (req: any, res: any) => {
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       }),
     ],
-    callbacks: {
-      async redirect({ url, baseUrl }: TRedirect) {
-        if (url.startsWith(`${baseUrl}/signin`)) return `/`;
-        else return url;
-      },
-    },
+    secret: process.env.NEXTAUTH_SECRET,
   };
 };
 

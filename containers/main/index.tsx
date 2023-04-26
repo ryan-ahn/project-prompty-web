@@ -158,7 +158,7 @@ export default function MainIndex() {
     <Wrapper>
       <HeaderArea>
         <img src={'static/logo.png'} alt="logo" />
-        {renderUser()}
+        {/* {renderUser()} */}
       </HeaderArea>
       <ContentArea>
         <ContentBolck>
