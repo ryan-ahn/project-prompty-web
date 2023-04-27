@@ -117,7 +117,6 @@ export default function MainIndex() {
           </SigninBox>
         );
     }
-    return;
   }, [session, status]);
 
   // Render List
@@ -128,7 +127,7 @@ export default function MainIndex() {
         .replace(/\n\n/g, '\n')
         .split('\n')
         .filter(line => line.length > 0 || line !== ' ')
-        .map((item, index) => <div key={index}>{renderItem(item, index)}</div>);
+        .map((item, index) => <ItemBox key={index}>{renderItem(item, index)}</ItemBox>);
     } else {
       return (
         <>
@@ -158,7 +157,7 @@ export default function MainIndex() {
     <Wrapper>
       <HeaderArea>
         <img src={'static/logo.png'} alt="logo" />
-        {/* {renderUser()} */}
+        {renderUser()}
       </HeaderArea>
       <ContentArea>
         <ContentBolck>
@@ -359,6 +358,12 @@ const ListBox = styled.div`
   ${({ theme }) => theme.boxSet('100%', '100%', '0px')};
   flex-wrap: wrap;
   gap: 20px;
+`;
+
+const ItemBox = styled.div`
+  @media (max-width: 800px) {
+    width: 100%;
+  }
 `;
 
 const ItemWrapper = styled.div`
