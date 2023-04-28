@@ -3,7 +3,10 @@ require('dotenv').config();
 module.exports = {
   distDir: 'build',
   env: {
-    NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST,
+    NEXT_PUBLIC_HOST:
+      process.env.NODE_ENV === 'development'
+        ? process.env.NEXT_LOCAL_HOST
+        : process.env.NEXT_PUBLIC_HOST,
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     CHAT_GPT_KEY: process.env.CHAT_GPT_KEY,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,

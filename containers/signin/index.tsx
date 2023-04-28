@@ -24,7 +24,9 @@ export default function index() {
           <img src="/static/logo.png" alt="logo" />
           <p>Login in your account</p>
         </LogoBox>
-        <SocialLoginButtonBox onClick={() => signIn('google')}>
+        <SocialLoginButtonBox
+          onClick={() => signIn('google', { callbackUrl: process.env.NEXT_PUBLIC_HOST })}
+        >
           <img src="/static/google.png" alt="button"></img>
           <p>Google</p>
         </SocialLoginButtonBox>

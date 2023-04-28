@@ -37,6 +37,7 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/_document.js",
-    "containers/main/index.tsxx"
+    "containers/main/index.tsxx",
+    "libs/utils/randomNumber.js"
   ]
 }

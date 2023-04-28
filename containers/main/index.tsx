@@ -5,15 +5,14 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
 import { TAG_LIST } from '@common/data';
-import { POST_GPT_RECOMMEND_REQUEST } from '@libs/redux/modules/main/actions';
-import { RootState } from '@libs/redux/modules';
 import LoadingSpinner from '@components/loading/Spinner';
+import { lottoNum } from '@libs/utils/recursiveFunc';
 
 type TFocus = {
   attrFocus: boolean;
@@ -30,7 +29,7 @@ type TActive = {
 export default function MainIndex() {
   const { data: session, status } = useSession();
   // Root State
-  const { recommend, isLoadingRecommend } = useSelector((state: RootState) => state.main);
+  const [recommendList, setRecommendList] = useState([0, 1, 2]);
   const [tag, setTag] = useState('지식');
   // State
   const [input, setInput] = useState<string>('');
@@ -48,7 +47,7 @@ export default function MainIndex() {
     [input],
   );
 
-  const onClickRouteToThreads = useCallback((keyword: number) => {
+  const onClickRouteToThreads = useCallback((keyword: string) => {
     router.push(`/threads/?search=${keyword}`);
   }, []);
 
@@ -71,9 +70,9 @@ export default function MainIndex() {
     [input],
   );
 
-  const onClickDispatchGptRecommend = useCallback(() => {
-    dispatch({ type: POST_GPT_RECOMMEND_REQUEST, payload: { input: tag } });
-  }, [tag]);
+  const setRandomRecommend = useCallback(() => {
+    setRecommendList(lottoNum());
+  }, []);
 
   useEffect(() => {
     if (inputRef !== null && inputRef.current !== null) {
@@ -82,14 +81,14 @@ export default function MainIndex() {
   }, []);
 
   useEffect(() => {
-    onClickDispatchGptRecommend();
-  }, [tag]);
+    setRandomRecommend();
+  }, []);
 
   // Render Item
-  const renderItem = useCallback((line: any, index: number) => {
+  const renderItem = useCallback((text: string, index: number) => {
     return (
-      <ItemWrapper onClick={() => onClickRouteToThreads(line)}>
-        <h2>{`${index + 1}. ${line}`}</h2>
+      <ItemWrapper onClick={() => onClickRouteToThreads(text)}>
+        <h2>{`${index + 1}. ${text}`}</h2>
       </ItemWrapper>
     );
   }, []);
@@ -121,29 +120,14 @@ export default function MainIndex() {
 
   // Render List
   const renderList = useCallback(() => {
-    if (recommend !== null && !isLoadingRecommend) {
-      return recommend
-        .replace(/[1-9]. |"|-|- /g, '')
-        .replace(/\n\n/g, '\n')
-        .split('\n')
-        .filter(line => line.length > 0 || line !== ' ')
-        .map((item, index) => <ItemBox key={index}>{renderItem(item, index)}</ItemBox>);
-    } else {
-      return (
-        <>
-          <ItemSkeleton>
-            <LoadingSpinner />
-          </ItemSkeleton>
-          <ItemSkeleton>
-            <LoadingSpinner />
-          </ItemSkeleton>
-          <ItemSkeleton>
-            <LoadingSpinner />
-          </ItemSkeleton>
-        </>
-      );
+    if (recommendList !== null) {
+      const filteredList = TAG_LIST.filter(item => item.name === tag)[0];
+      const includesItem = filteredList.list.filter(item => recommendList.includes(item.id));
+      return includesItem.map((item, index) => (
+        <div key={index}>{renderItem(item.text, index)}</div>
+      ));
     }
-  }, [recommend, isLoadingRecommend]);
+  }, [tag, recommendList]);
 
   const renderTagList = useCallback(() => {
     return TAG_LIST.map(item => (
@@ -157,7 +141,7 @@ export default function MainIndex() {
     <Wrapper>
       <HeaderArea>
         <img src={'static/logo.png'} alt="logo" />
-        {renderUser()}
+        {/* {renderUser()} */}
       </HeaderArea>
       <ContentArea>
         <ContentBolck>
@@ -189,11 +173,7 @@ export default function MainIndex() {
                 <img src={'static/popular.png'} alt="popular" />
                 <p>AI가 추천하는 질문</p>
               </div>
-              <img
-                src={'static/button-reload.png'}
-                alt="reload"
-                onClick={onClickDispatchGptRecommend}
-              />
+              <img src={'static/button-reload.png'} alt="reload" onClick={setRandomRecommend} />
             </LineHeader>
             <TagBox>{renderTagList()}</TagBox>
             <ListBox>{renderList()}</ListBox>
@@ -386,16 +366,6 @@ const ItemWrapper = styled.div`
     word-break: break-all;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-  }
-`;
-
-const ItemSkeleton = styled.div`
-  ${({ theme }) => theme.boxSet('240px', '110px', '12px')};
-  ${({ theme }) => theme.flexSet('center', 'center', 'row')};
-  border: 1px solid #606060;
-  background-color: #202020;
-  @media (max-width: 800px) {
-    width: 100%;
   }
 `;
 

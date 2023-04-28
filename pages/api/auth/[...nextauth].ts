@@ -4,13 +4,13 @@
  * Desc : next auth
  */
 
-import NextAuth from 'next-auth';
+import NextAuth, { Awaitable, NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import connectDB from '@libs/utils/connectDB';
 
 connectDB();
 
-const nextAuthOptions = (req: any, res: any) => {
+const nextAuthOptions = () => {
   return {
     providers: [
       GoogleProvider({
@@ -23,7 +23,7 @@ const nextAuthOptions = (req: any, res: any) => {
 };
 
 const authHandler = (req: any, res: any) => {
-  return NextAuth(req, res, nextAuthOptions(req, res));
+  return NextAuth(req, res, nextAuthOptions());
 };
 
 export default authHandler;
