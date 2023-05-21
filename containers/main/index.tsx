@@ -242,10 +242,13 @@ const TitleBox = styled.div`
   & > img {
     ${({ theme }) => theme.boxSet('auto', '60px', '0px')};
     margin-right: 10px;
+    @media (max-width: 400px) {
+      ${({ theme }) => theme.boxSet('auto', '50px', '0px')};
+    }
   }
   & > h1 {
     ${({ theme }) => theme.fontSet(50, 700, 70)};
-    @media (max-width: 350px) {
+    @media (max-width: 400px) {
       ${({ theme }) => theme.fontSet(40, 700, 50)};
     }
   }
@@ -254,6 +257,9 @@ const TitleBox = styled.div`
 const SearchBox = styled.div`
   position: relative;
   ${({ theme }) => theme.boxSet('100%', '70px', '0px')};
+  @media (max-width: 400px) {
+    ${({ theme }) => theme.boxSet('100%', '50px', '0px')};
+  }
 `;
 
 const InputBox = styled.input<TFocus>`
@@ -268,6 +274,9 @@ const InputBox = styled.input<TFocus>`
     css`
       background-color: #000000;
     `}
+  @media (max-width: 400px) {
+    padding: 0 60px 0 30px;
+  }
 `;
 
 const ButtonBox = styled.button`
@@ -283,6 +292,9 @@ const ButtonBox = styled.button`
   }
   & > img {
     ${({ theme }) => theme.boxSet('80%', 'auto', '50%')};
+  }
+  @media (max-width: 400px) {
+    ${({ theme }) => theme.boxSet('35px', '35px', '50%')};
   }
 `;
 
@@ -303,6 +315,9 @@ const CloseBox = styled.button<TVisibility>`
     css`
       visibility: visible;
     `}
+  @media (max-width: 400px) {
+    display: none;
+  }
 `;
 
 const PopularBlock = styled.div`
@@ -354,6 +369,9 @@ const ItemWrapper = styled.div`
   cursor: pointer;
   @media (max-width: 800px) {
     width: 100%;
+  }
+  @media (max-width: 400px) {
+    height: auto;
   }
   & > h2 {
     display: -webkit-box;

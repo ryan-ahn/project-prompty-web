@@ -232,8 +232,9 @@ export default function index({ search, prompt }: TProps) {
         <div>
           <img src={'static/logo_white.png'} alt="logo" onClick={onClickRouteToMain} />
           <div>
-            <button onClick={onClickCreatePrompt}>{'공유하기'}</button>
-            <button onClick={onClickRouteToMain}>{'새로 질문하기'}</button>
+            <img src={'static/home.png'} alt="button" onClick={onClickRouteToMain} />
+            <img src={'static/share.png'} alt="button" onClick={onClickRouteToMain} />
+            <img src={'static/save.png'} alt="button" onClick={onClickRouteToMain} />
           </div>
         </div>
       </HeaderArea>
@@ -302,13 +303,9 @@ const HeaderArea = styled.nav`
     }
     & > div {
       display: flex;
-      gap: 10px;
-      & > button {
-        padding: 8px 15px;
-        border-radius: 20px;
-        color: white;
-        background-color: #009ffc;
-        ${({ theme }) => theme.fontSet(14, 500, 20)};
+      gap: 15px;
+      & > img {
+        ${({ theme }) => theme.boxSet('auto', '30px', '0px')};
         cursor: pointer;
       }
     }

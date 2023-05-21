@@ -2,10 +2,11 @@
   "name": "prompty",
   "version": "0.1.0",
   "scripts": {
-    "dev": "next dev -p 3000",
-    "build": "next build",
+    "dev": "env-cmd -f .env.dev next dev -p 3000",
+    "build:prod": "env-cmd -f .env.prod next build",
+    "build:dev": "env-cmd -f .env.dev next build",
     "start": "next start -p $PORT",
-    "deploy": "next build && eb deploy"
+    "deploy": "env-cmd -f .env.prod next build && eb deploy"
   },
   "dependencies": {
     "axios": "^0.24.0",

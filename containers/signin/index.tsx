@@ -12,6 +12,8 @@ import { useDispatch } from 'react-redux';
 import { GET_KAKAO_CALLBACK_REQUEST } from '@libs/redux/modules/user/actions';
 
 export default function index({ code }: IProps) {
+  // Value
+  const API_HOST = process.env.API_HOST;
   // Hooks
   const router = useRouter();
   const dispatch = useDispatch();
@@ -38,7 +40,7 @@ export default function index({ code }: IProps) {
           <img src="/static/logo.png" alt="logo" />
           <p>Login in your account</p>
         </LogoBox>
-        <SocialLoginButtonBox href="http://localhost:8080/v1/auth/kakao/init">
+        <SocialLoginButtonBox href={`${API_HOST}/auth/kakao/init`}>
           <img src="/static/kakao.png" alt="button"></img>
           <p>Kakao</p>
         </SocialLoginButtonBox>
