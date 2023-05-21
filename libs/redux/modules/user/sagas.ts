@@ -7,18 +7,20 @@ import * as types from './types';
 import * as apis from './apis';
 import { OPEN_TOAST } from '../toast/actions';
 
-function* postSignInSaga(action: PayloadAction<'POST_SIGN_IN_REQUEST', types.TSignInReq>) {
+function* getKakaoCallbackSaga(
+  action: PayloadAction<'GET_KAKAO_CALLBACK_REQUEST', types.TKakaoCallbackReq>,
+) {
   try {
-    const result: types.TSignInRes = yield call(apis.postSignInApi, action.payload);
+    const result: types.TKakaoCallbackRes = yield call(apis.getKakaoCallbackApi, action.payload);
     yield put({
-      type: actions.POST_SIGN_IN_SUCCESS,
+      type: actions.GET_KAKAO_CALLBACK_SUCCESS,
       payload: result,
     });
-    jsCookie.set('access', result.token);
+    jsCookie.set('access', result.token.accessToken);
     yield call(Router.push, '/');
   } catch (e) {
     yield put({
-      type: actions.POST_SIGN_IN_FAILURE,
+      type: actions.GET_KAKAO_CALLBACK_FAILURE,
       error: e,
     });
     yield put({
@@ -27,10 +29,28 @@ function* postSignInSaga(action: PayloadAction<'POST_SIGN_IN_REQUEST', types.TSi
     });
   }
 }
-function* watchPostSignIn() {
-  yield takeLatest(actions.POST_SIGN_IN_REQUEST, postSignInSaga);
+function* watchGetKakaoCallback() {
+  yield takeLatest(actions.GET_KAKAO_CALLBACK_REQUEST, getKakaoCallbackSaga);
+}
+
+function* getTokenAccessSaga() {
+  try {
+    const result: types.TKakaoCallbackRes = yield call(apis.getTokenAccessApi);
+    yield put({
+      type: actions.GET_TOKEN_ACCESS_SUCCESS,
+      payload: result,
+    });
+  } catch (e) {
+    yield put({
+      type: actions.GET_TOKEN_ACCESS_FAILURE,
+      error: e,
+    });
+  }
+}
+function* watchGetTokenAccess() {
+  yield takeLatest(actions.GET_TOKEN_ACCESS_REQUEST, getTokenAccessSaga);
 }
 
 export default function* userSaga() {
-  yield all([fork(watchPostSignIn)]);
+  yield all([fork(watchGetKakaoCallback), fork(watchGetTokenAccess)]);
 }

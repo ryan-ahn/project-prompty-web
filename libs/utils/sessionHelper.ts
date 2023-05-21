@@ -10,7 +10,7 @@ export function addUserAccessToken(isMultiPart: boolean | undefined = false) {
   const headers: any = {};
   const access = jsCookies.get('access');
   if (access) {
-    headers.Authorization = `Bearer ${access}`;
+    headers.authorization = `${access}`;
   }
   if (isMultiPart) {
     headers['Content-Type'] = 'multipart/form-data';

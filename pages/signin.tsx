@@ -8,7 +8,10 @@ import { META_COMMON, META_PAGE } from '@common/meta';
 import SEO from '@components/seo';
 import SignIn from '@containers/signin';
 
-export default function SignInPage() {
+export interface IProps {
+  code: string | null;
+}
+export default function SignInPage({ code }: IProps) {
   // Value
   const meta = {
     page_title: META_PAGE.signin.page_title,
@@ -19,7 +22,16 @@ export default function SignInPage() {
 
   return (
     <SEO meta={meta}>
-      <SignIn />
+      <SignIn code={code} />
     </SEO>
   );
 }
+
+export const getServerSideProps = async (context: any) => {
+  const code = context.query.code ? context.query.code : null;
+  return {
+    props: {
+      code: code,
+    },
+  };
+};

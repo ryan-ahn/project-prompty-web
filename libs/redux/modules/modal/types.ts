@@ -4,7 +4,7 @@
  * Desc : types
  */
 
-export type TModalMode = 'UNSET' | 'NOTHING' | 'PROMPT' | 'GPT' | 'CREATE_PROMPT';
+export type TModalMode = 'UNSET' | 'NOTHING' | 'MY_LIST';
 
 export type TTestReq = string;
 

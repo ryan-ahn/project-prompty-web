@@ -5,6 +5,7 @@
  */
 
 import { META_COMMON, META_PAGE } from '@common/meta';
+import Modal from '@components/modal';
 import SEO from '@components/seo';
 import Main from '@containers/main';
 
@@ -19,6 +20,7 @@ export default function index() {
 
   return (
     <SEO meta={meta}>
+      <Modal />
       <Main />
     </SEO>
   );

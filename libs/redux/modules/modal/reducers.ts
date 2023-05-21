@@ -27,6 +27,12 @@ export const initialState: TModalReducer = {
 };
 
 const mainReducer = createReducer<TModalReducer, Actions>(initialState, {
+  [actions.OPEN_MODAL]: (state, action) => ({
+    ...state,
+    modalMode: action.payload,
+    isOpenModal: true,
+  }),
+
   [actions.CLOSE_MODAL]: state => ({
     ...state,
     modalMode: 'UNSET',
@@ -34,30 +40,6 @@ const mainReducer = createReducer<TModalReducer, Actions>(initialState, {
     prompt: null,
     gpt: null,
     response: null,
-  }),
-  [actions.OPEN_MODAL]: (state, action) => ({
-    ...state,
-    modalMode: action.payload,
-    isOpenModal: true,
-  }),
-  [actions.OPEN_CHAT_GPT_MODAL]: (state, action) => ({
-    ...state,
-    modalMode: 'GPT',
-    gpt: action.payload,
-    isOpenModal: true,
-  }),
-  [actions.GET_TEST_REQUEST]: state => ({
-    ...state,
-    isLoading: true,
-  }),
-  [actions.GET_TEST_SUCCESS]: (state, action) => ({
-    ...state,
-    response: action.payload,
-    isLoading: false,
-  }),
-  [actions.GET_TEST_FAILURE]: state => ({
-    ...state,
-    isLoading: false,
   }),
 });
 

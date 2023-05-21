@@ -2,17 +2,27 @@ import { AxiosError } from 'axios';
 import { createAction, createAsyncAction, EmptyAction } from 'typesafe-actions';
 import * as types from './types';
 
-const API_HOST = 'http://localhost:8000/api/v2';
+const API_HOST = process.env.API_HOST;
 
-export const CHECK_ACCESS = 'CHECK_ACCESS';
-export const checkAccess = createAction(CHECK_ACCESS)();
+export const SIGN_OUT = 'SIGN_OUT';
+export const signOut = createAction(SIGN_OUT)();
 
-export const POST_SIGN_IN_URL = `${API_HOST}/login/`;
-export const POST_SIGN_IN_REQUEST = 'POST_SIGN_IN_REQUEST';
-export const POST_SIGN_IN_SUCCESS = 'POST_SIGN_IN_SUCCESS';
-export const POST_SIGN_IN_FAILURE = 'POST_SIGN_IN_FAILURE';
-export const postSignInAction = createAsyncAction(
-  POST_SIGN_IN_REQUEST,
-  POST_SIGN_IN_SUCCESS,
-  POST_SIGN_IN_FAILURE,
-)<types.TSignInReq, types.TSignInRes, AxiosError>();
+export const GET_KAKAO_CALLBACK_URL = `${API_HOST}/auth/kakao/callback`;
+export const GET_KAKAO_CALLBACK_REQUEST = 'GET_KAKAO_CALLBACK_REQUEST';
+export const GET_KAKAO_CALLBACK_SUCCESS = 'GET_KAKAO_CALLBACK_SUCCESS';
+export const GET_KAKAO_CALLBACK_FAILURE = 'GET_KAKAO_CALLBACK_FAILURE';
+export const getKakaoCallbackAction = createAsyncAction(
+  GET_KAKAO_CALLBACK_REQUEST,
+  GET_KAKAO_CALLBACK_SUCCESS,
+  GET_KAKAO_CALLBACK_FAILURE,
+)<types.TKakaoCallbackReq, types.TKakaoCallbackRes, AxiosError>();
+
+export const GET_TOKEN_ACCESS_URL = `${API_HOST}/auth/token/access`;
+export const GET_TOKEN_ACCESS_REQUEST = 'GET_TOKEN_ACCESS_REQUEST';
+export const GET_TOKEN_ACCESS_SUCCESS = 'GET_TOKEN_ACCESS_SUCCESS';
+export const GET_TOKEN_ACCESS_FAILURE = 'GET_TOKEN_ACCESS_FAILURE';
+export const getTokenAccessAction = createAsyncAction(
+  GET_TOKEN_ACCESS_REQUEST,
+  GET_TOKEN_ACCESS_SUCCESS,
+  GET_TOKEN_ACCESS_FAILURE,
+)<EmptyAction<any>, types.TTokenAccessRes, AxiosError>();

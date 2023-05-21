@@ -4,18 +4,32 @@
  * Desc : index
  */
 
-import { signIn } from 'next-auth/react';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { IProps } from 'pages/signin';
+import { useDispatch } from 'react-redux';
+import { GET_KAKAO_CALLBACK_REQUEST } from '@libs/redux/modules/user/actions';
 
-export default function index() {
+export default function index({ code }: IProps) {
   // Hooks
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const onClickRouteToPolicy = useCallback(() => {
     router.push('/policy');
   }, []);
+
+  useEffect(() => {
+    if (code !== null) {
+      dispatch({
+        type: GET_KAKAO_CALLBACK_REQUEST,
+        payload: {
+          code: code,
+        },
+      });
+    }
+  }, [code]);
 
   return (
     <Wrapper>
@@ -24,15 +38,13 @@ export default function index() {
           <img src="/static/logo.png" alt="logo" />
           <p>Login in your account</p>
         </LogoBox>
-        <SocialLoginButtonBox
-          onClick={() => signIn('google', { callbackUrl: process.env.NEXT_PUBLIC_HOST })}
-        >
-          <img src="/static/google.png" alt="button"></img>
-          <p>Google</p>
-        </SocialLoginButtonBox>
-        <SocialLoginButtonBox>
+        <SocialLoginButtonBox href="http://localhost:8080/v1/auth/kakao/init">
           <img src="/static/kakao.png" alt="button"></img>
           <p>Kakao</p>
+        </SocialLoginButtonBox>
+        <SocialLoginButtonBox>
+          <img src="/static/google.png" alt="button"></img>
+          <p>Google</p>
         </SocialLoginButtonBox>
         <Line />
         <DescriptionBox>
@@ -71,7 +83,7 @@ const LogoBox = styled.div`
   }
 `;
 
-const SocialLoginButtonBox = styled.div`
+const SocialLoginButtonBox = styled.a`
   ${({ theme }) => theme.flexSet('center', 'center', 'row')};
   ${({ theme }) => theme.boxSet('100%', '55px', '12px')};
   margin: 20px 0;

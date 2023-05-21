@@ -18,12 +18,11 @@ type TWrapper = {
 type TDimmedArea = {
   open: boolean;
   align: boolean;
-  transpararency: boolean;
 };
 
 export default function ModalIndex() {
   // Dynamic
-  // const Prompt = dynamic(() => import('@components/modal/PromptModal'));
+  const MyList = dynamic(() => import('./MyListModal'));
   // Root State
   const { modalMode, isOpenModal } = useSelector((state: RootState) => state.modal);
   // Ref
@@ -47,8 +46,8 @@ export default function ModalIndex() {
     switch (modalMode) {
       case 'UNSET':
         return <></>;
-      case 'PROMPT':
-      // return <Prompt />;
+      case 'MY_LIST':
+        return <MyList />;
     }
   }, [modalMode]);
 
@@ -58,7 +57,6 @@ export default function ModalIndex() {
         ref={dimmedRef}
         open={isOpenModal}
         align={modalMode !== 'NOTHING'}
-        transpararency={false}
         onClick={e => onClickCloseModal(e)}
       >
         <ModalArea>
@@ -71,9 +69,11 @@ export default function ModalIndex() {
 }
 
 const Wrapper = styled.div<TWrapper>`
+  display: none;
   ${props =>
     props.open &&
     css`
+      display: block;
       position: fixed;
       bottom: 0;
       ${({ theme }) => theme.boxSet('100%', '100vh', '0px')};
@@ -84,29 +84,28 @@ const Wrapper = styled.div<TWrapper>`
 const DimmedArea = styled.div<TDimmedArea>`
   ${({ theme }) => theme.flexSet('center', 'center')};
   ${({ theme }) => theme.boxSet('100%', '100%', '0px')};
+  padding: 25px;
   z-index: 99;
   transition: all 0.3s ease-out;
   ${props =>
     props.open &&
     css`
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.8);
     `}
   ${props =>
     props.align &&
     css`
-      ${({ theme }) => theme.flexSet('center', 'flex-end')};
-    `}
-  ${props =>
-    props.transpararency &&
-    css`
-      background-color: transparent;
+      ${({ theme }) => theme.flexSet('center', 'center')};
     `}
 `;
 
 const ModalArea = styled.div`
   position: relative;
   ${({ theme }) => theme.flexSet('center', 'center')};
-  width: 100%;
+  ${({ theme }) => theme.boxSet('100%', '320px', '8px')};
+  border: 1px solid #606060;
+  background-color: #101010;
+  max-width: 400px;
 `;
 
 const CloseBox = styled.div`
@@ -114,6 +113,6 @@ const CloseBox = styled.div`
   top: 15px;
   right: 15px;
   ${({ theme }) => theme.boxSet('28px', '28px', '14px')};
-  ${({ theme }) => theme.backgroundSet('/static/icons/common/button-close.svg', 'contain')};
+  ${({ theme }) => theme.backgroundSet('/static/button-close.png', 'contain')};
   cursor: pointer;
 `;

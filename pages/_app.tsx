@@ -4,21 +4,33 @@
  * Desc : _app
  */
 
+import { useEffect } from 'react';
 import { AppProps } from 'next/app';
-import { SessionProvider } from 'next-auth/react';
+import { useDispatch } from 'react-redux';
+import jsCookie from 'js-cookie';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '@styles/global';
 import { wrapper } from '@libs/redux/store';
 import theme from '@styles/theme';
+import { GET_TOKEN_ACCESS_REQUEST } from '@libs/redux/modules/user/actions';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // Hooks
+  const dispatch = useDispatch();
+  // Cookie
+  const access = jsCookie.get('access');
+
+  useEffect(() => {
+    if (access) {
+      dispatch({ type: GET_TOKEN_ACCESS_REQUEST });
+    }
+  }, [access]);
+
   return (
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <SessionProvider session={pageProps.session}>
-          <Component {...pageProps} />
-        </SessionProvider>
+        <Component {...pageProps} />
       </ThemeProvider>
     </>
   );

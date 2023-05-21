@@ -5,14 +5,15 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
 import { TAG_LIST } from '@common/data';
-import LoadingSpinner from '@components/loading/Spinner';
 import { lottoNum } from '@libs/utils/recursiveFunc';
+import { RootState } from '@libs/redux/modules';
+import LoadingSpinner from '@components/loading/Spinner';
+import { OPEN_MODAL } from '@libs/redux/modules/modal/actions';
 
 type TFocus = {
   attrFocus: boolean;
@@ -27,11 +28,11 @@ type TActive = {
 };
 
 export default function MainIndex() {
-  const { data: session, status } = useSession();
   // Root State
+  const { isLoggedIn, userDetail } = useSelector((state: RootState) => state.user);
+  // State
   const [recommendList, setRecommendList] = useState([0, 1, 2]);
   const [tag, setTag] = useState('지식');
-  // State
   const [input, setInput] = useState<string>('');
   const [focus, setFocus] = useState<boolean>(false);
   // Ref
@@ -53,6 +54,10 @@ export default function MainIndex() {
 
   const onClickRouteToSignin = useCallback(() => {
     router.push('/signin');
+  }, []);
+
+  const onClickOpenMyModal = useCallback(() => {
+    dispatch({ type: OPEN_MODAL, payload: 'MY_LIST' });
   }, []);
 
   const onClickSearch = useCallback(() => {
@@ -94,29 +99,23 @@ export default function MainIndex() {
   }, []);
 
   const renderUser = useCallback(() => {
-    switch (status) {
-      case 'authenticated':
-        if (session && session.user && session.user.image) {
+    switch (isLoggedIn) {
+      case true:
+        if (userDetail) {
           return (
-            <UserBox onClick={() => signOut()}>
-              <img src={session.user.image} alt="user" />
+            <UserBox onClick={onClickOpenMyModal}>
+              <img src={userDetail?.profileImage} alt="user" />
             </UserBox>
           );
         }
-      case 'loading':
-        return (
-          <UserBox>
-            <LoadingSpinner size={20} />
-          </UserBox>
-        );
-      case 'unauthenticated':
+      case false:
         return (
           <SigninBox onClick={onClickRouteToSignin}>
             <p>Sign In</p>
           </SigninBox>
         );
     }
-  }, [session, status]);
+  }, [isLoggedIn, userDetail]);
 
   // Render List
   const renderList = useCallback(() => {
@@ -124,7 +123,7 @@ export default function MainIndex() {
       const filteredList = TAG_LIST.filter(item => item.name === tag)[0];
       const includesItem = filteredList.list.filter(item => recommendList.includes(item.id));
       return includesItem.map((item, index) => (
-        <div key={index}>{renderItem(item.text, index)}</div>
+        <ItemBox key={index}>{renderItem(item.text, index)}</ItemBox>
       ));
     }
   }, [tag, recommendList]);
@@ -141,7 +140,7 @@ export default function MainIndex() {
     <Wrapper>
       <HeaderArea>
         <img src={'static/logo.png'} alt="logo" />
-        {/* {renderUser()} */}
+        {renderUser()}
       </HeaderArea>
       <ContentArea>
         <ContentBolck>
