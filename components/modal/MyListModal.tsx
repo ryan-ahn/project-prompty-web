@@ -48,6 +48,7 @@ const ModalItem = styled.div`
   ${({ theme }) => theme.flexSet('center', 'center', 'row')};
   ${({ theme }) => theme.boxSet('100%', '60px', '0px')};
   border-bottom: 1px solid #606060;
+  cursor: pointer;
   & > p {
     ${({ theme }) => theme.fontSet(20, 700, 32)};
   }
