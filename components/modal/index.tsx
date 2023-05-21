@@ -106,6 +106,7 @@ const ModalArea = styled.div`
   position: relative;
   ${({ theme }) => theme.flexSet('center', 'center')};
   ${({ theme }) => theme.boxSet('100%', 'auto', '8px')};
+  max-width: 500px;
   border: 1px solid #606060;
   background-color: #101010;
 `;
