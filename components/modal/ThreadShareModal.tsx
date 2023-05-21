@@ -75,6 +75,8 @@ const LinkBlock = styled.div`
   background-color: #303030;
   overflow: hidden;
   & > input {
+    ${({ theme }) => theme.boxSet('100%', '100%', '0px')};
+    text-align: center;
     display: -webkit-box;
     color: #c1c1c1;
     ${({ theme }) => theme.fontSet(13, 300, 20)};
