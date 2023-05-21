@@ -4,7 +4,7 @@
  * Desc : types
  */
 
-export type TModalMode = 'UNSET' | 'NOTHING' | 'MY_LIST';
+export type TModalMode = 'UNSET' | 'NOTHING' | 'MY_LIST' | 'THREAD_SHARE';
 
 export type TTestReq = string;
 

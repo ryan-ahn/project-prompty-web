@@ -41,7 +41,12 @@ export async function postGptRelationApi(payload: types.TPostGptRelationReq) {
 export async function postPromptApi(payload: types.TPostPromptReq) {
   try {
     const response = await axios.post(`${actions.POST_PROMPT_URL}`, payload);
-    const result: types.TPostPromptRes = response.data.data;
+    const requestPrompt = payload.promptList[0].prompt;
+    const responseId = response.data.data._id;
+    const result: types.TPostPromptRes = {
+      title: requestPrompt,
+      _id: responseId,
+    };
     return result;
   } catch (e) {
     throw new Error(e as any);

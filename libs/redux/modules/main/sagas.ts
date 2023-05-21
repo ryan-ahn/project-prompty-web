@@ -76,11 +76,6 @@ function* postPromptSaga(action: PayloadAction<'POST_PROMPT_REQUEST', types.TPos
       type: actions.POST_PROMPT_SUCCESS,
       payload: result,
     });
-    yield call(Router.push, `/threads?prompt=${result._id}`);
-    yield put({
-      type: OPEN_TOAST,
-      payload: '링크를 복사하세요.',
-    });
   } catch (e) {
     console.log(e);
     yield put({

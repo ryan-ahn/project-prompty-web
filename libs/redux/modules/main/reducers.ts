@@ -8,6 +8,8 @@ export type TMainReducer = {
   recommend: string | null;
   chain: TPromptList | null;
   relation: string | null;
+  shareLink: string | null;
+  shareTitle: string | null;
   isLoadingRecommend: boolean;
   isLoadingChain: boolean;
   isLoadingQuestion: boolean;
@@ -18,6 +20,8 @@ export const initialState: TMainReducer = {
   recommend: null,
   chain: null,
   relation: null,
+  shareLink: null,
+  shareTitle: null,
   isLoadingRecommend: false,
   isLoadingChain: false,
   isLoadingQuestion: false,
@@ -90,6 +94,8 @@ const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
   }),
   [actions.POST_PROMPT_SUCCESS]: (state, action) => ({
     ...state,
+    shareTitle: action.payload.title,
+    shareLink: action.payload._id,
     isLoadingCreatePrompt: false,
   }),
   [actions.POST_PROMPT_FAILURE]: state => ({

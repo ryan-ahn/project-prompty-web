@@ -7,6 +7,7 @@
 import { META_COMMON, META_PAGE } from 'common/meta';
 import SEO from '@components/seo';
 import Threads from '@containers/threads';
+import Modal from '@components/modal';
 
 export type TProps = {
   search: string | null;
@@ -24,6 +25,7 @@ export default function ThreadsPage({ search, prompt }: TProps) {
 
   return (
     <SEO meta={meta}>
+      <Modal />
       <Threads search={search} prompt={prompt} />
     </SEO>
   );

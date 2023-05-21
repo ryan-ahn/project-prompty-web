@@ -19,6 +19,7 @@ import {
 } from '@libs/redux/modules/main/actions';
 import { CLOSE_TOAST } from '@libs/redux/modules/toast/actions';
 import Toast from '@components/toast';
+import { OPEN_MODAL } from '@libs/redux/modules/modal/actions';
 
 type TVisibility = {
   attrVisibility: boolean;
@@ -86,11 +87,15 @@ export default function index({ search, prompt }: TProps) {
     }
   }, [chain]);
 
+  const onClickOpenShareModal = useCallback(() => {
+    if (chain) {
+      onClickCreatePrompt();
+      dispatch({ type: OPEN_MODAL, payload: 'THREAD_SHARE' });
+    }
+  }, [chain]);
+
   const onClickCreatePrompt = useCallback(() => {
     dispatch({ type: POST_PROMPT_REQUEST, payload: { promptList: chain, category: 0 } });
-    setTimeout(() => {
-      dispatch({ type: CLOSE_TOAST });
-    }, 2500);
   }, [chain]);
 
   const onClickRouteToMain = useCallback(() => {
@@ -233,8 +238,8 @@ export default function index({ search, prompt }: TProps) {
           <img src={'static/logo_white.png'} alt="logo" onClick={onClickRouteToMain} />
           <div>
             <img src={'static/home.png'} alt="button" onClick={onClickRouteToMain} />
-            <img src={'static/share.png'} alt="button" onClick={onClickRouteToMain} />
             <img src={'static/save.png'} alt="button" onClick={onClickRouteToMain} />
+            <img src={'static/share.png'} alt="button" onClick={onClickOpenShareModal} />
           </div>
         </div>
       </HeaderArea>

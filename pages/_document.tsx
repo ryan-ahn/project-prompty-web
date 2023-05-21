@@ -55,6 +55,20 @@ export default class MyDocument extends Document {
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_ID}`}
           />
+          <script
+            src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+            integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
+            crossOrigin="anonymous"
+          ></script>
+          <Script
+            id=""
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+              Kakao.init('96c9555bb9f1d42cab8918a469a29964');
+              `,
+            }}
+          />
           <Script
             id="GA4"
             strategy="afterInteractive"

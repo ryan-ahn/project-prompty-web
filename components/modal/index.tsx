@@ -23,6 +23,7 @@ type TDimmedArea = {
 export default function ModalIndex() {
   // Dynamic
   const MyList = dynamic(() => import('./MyListModal'));
+  const ThreadShare = dynamic(() => import('./ThreadShareModal'));
   // Root State
   const { modalMode, isOpenModal } = useSelector((state: RootState) => state.modal);
   // Ref
@@ -48,6 +49,8 @@ export default function ModalIndex() {
         return <></>;
       case 'MY_LIST':
         return <MyList />;
+      case 'THREAD_SHARE':
+        return <ThreadShare />;
     }
   }, [modalMode]);
 
@@ -102,10 +105,9 @@ const DimmedArea = styled.div<TDimmedArea>`
 const ModalArea = styled.div`
   position: relative;
   ${({ theme }) => theme.flexSet('center', 'center')};
-  ${({ theme }) => theme.boxSet('100%', '320px', '8px')};
+  ${({ theme }) => theme.boxSet('100%', 'auto', '8px')};
   border: 1px solid #606060;
   background-color: #101010;
-  max-width: 400px;
 `;
 
 const CloseBox = styled.div`
