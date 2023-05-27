@@ -34,6 +34,9 @@ export default function ThreadsPage({ search, prompt }: TProps) {
 export const getServerSideProps = async (context: any) => {
   const search = context.query.search ? context.query.search : null;
   const prompt = context.query.prompt ? context.query.prompt : null;
+  // await fetch(`https://api.prompty.im/v1/prompt/${prompt}`).then(async res => {
+  //   await res.json().then(res2 => console.log(res2));
+  // });
   return {
     props: {
       search: search,

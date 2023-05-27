@@ -14,7 +14,7 @@ import { wrapper } from '@libs/redux/store';
 import theme from '@styles/theme';
 import { GET_TOKEN_ACCESS_REQUEST } from '@libs/redux/modules/user/actions';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, ...order }: AppProps) {
   // Hooks
   const dispatch = useDispatch();
   // Cookie
@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <Component {...order} {...pageProps} />
       </ThemeProvider>
     </>
   );
