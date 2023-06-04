@@ -8,6 +8,9 @@ const API_HOST = process.env.API_HOST;
 export const INIT_THREAD = 'INIT_THREAD';
 export const initThread = createAction(INIT_THREAD)();
 
+export const INIT_SUMMARY = 'INIT_SUMMARY';
+export const initSummary = createAction(INIT_SUMMARY)();
+
 export const SET_STATIC_DATA = 'SET_STATIC_DATA';
 export const setStaticData = createAction(SET_STATIC_DATA)<TSetStaticData>();
 
@@ -40,6 +43,16 @@ export const postGptRelationAction = createAsyncAction(
   POST_GPT_RELATION_SUCCESS,
   POST_GPT_RELATION_FAILURE,
 )<types.TPostGptRelationReq, types.TPostGptRelationRes, AxiosError>();
+
+export const POST_GPT_SUMMARY_URL = `${API_HOST}/gpt/summary`;
+export const POST_GPT_SUMMARY_REQUEST = 'POST_GPT_SUMMARY_REQUEST';
+export const POST_GPT_SUMMARY_SUCCESS = 'POST_GPT_SUMMARY_SUCCESS';
+export const POST_GPT_SUMMARY_FAILURE = 'POST_GPT_SUMMARY_FAILURE';
+export const postGptSummaryAction = createAsyncAction(
+  POST_GPT_SUMMARY_REQUEST,
+  POST_GPT_SUMMARY_SUCCESS,
+  POST_GPT_SUMMARY_FAILURE,
+)<types.TPostGptSummaryReq, types.TPostGptSummaryRes, AxiosError>();
 
 export const POST_PROMPT_URL = `${API_HOST}/prompt`;
 export const POST_PROMPT_REQUEST = 'POST_PROMPT_REQUEST';

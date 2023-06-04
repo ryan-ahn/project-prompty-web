@@ -16,8 +16,8 @@ import {
   INIT_THREAD,
   POST_PROMPT_REQUEST,
   GET_PROMPT_REQUEST,
+  POST_GPT_SUMMARY_REQUEST,
 } from '@libs/redux/modules/main/actions';
-import { CLOSE_TOAST } from '@libs/redux/modules/toast/actions';
 import Toast from '@components/toast';
 import { OPEN_MODAL } from '@libs/redux/modules/modal/actions';
 
@@ -94,8 +94,19 @@ export default function index({ search, prompt }: TProps) {
     }
   }, [chain]);
 
+  const onClickOpenSummaryModal = useCallback(() => {
+    if (chain) {
+      onClickSummaryPrompt();
+      dispatch({ type: OPEN_MODAL, payload: 'THREAD_SUMMARY' });
+    }
+  }, [chain]);
+
   const onClickCreatePrompt = useCallback(() => {
     dispatch({ type: POST_PROMPT_REQUEST, payload: { promptList: chain, category: 0 } });
+  }, [chain]);
+
+  const onClickSummaryPrompt = useCallback(() => {
+    dispatch({ type: POST_GPT_SUMMARY_REQUEST, payload: { assistant: chain } });
   }, [chain]);
 
   const onClickRouteToMain = useCallback(() => {
@@ -240,6 +251,7 @@ export default function index({ search, prompt }: TProps) {
             <img src={'static/home.png'} alt="button" onClick={onClickRouteToMain} />
             <img src={'static/save.png'} alt="button" onClick={onClickRouteToMain} />
             <img src={'static/share.png'} alt="button" onClick={onClickOpenShareModal} />
+            <img src={'static/summary.png'} alt="button" onClick={onClickOpenSummaryModal} />
           </div>
         </div>
       </HeaderArea>

@@ -31,6 +31,12 @@ export type TPostGptRelationReq = {
   input: string;
 };
 
+export type TPostGptSummaryReq = {
+  assistant: Array<{ prompt: string; answer: string }>;
+};
+
+export type TPostGptSummaryRes = string;
+
 export type TPostGptRelationRes = string;
 
 export type TPostPromptReq = { promptList: TPromptList };

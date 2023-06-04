@@ -69,6 +69,27 @@ function* watchGptRelation() {
   yield takeLatest(actions.POST_GPT_RELATION_REQUEST, postGptRelationSaga);
 }
 
+function* postGptSummarySaga(
+  action: PayloadAction<'POST_GPT_SUMMARY_REQUEST', types.TPostGptSummaryReq>,
+) {
+  try {
+    const result: types.TPostGptSummaryRes = yield call(apis.postGptSummaryApi, action.payload);
+    yield put({
+      type: actions.POST_GPT_SUMMARY_SUCCESS,
+      payload: result,
+    });
+  } catch (e) {
+    console.log(e);
+    yield put({
+      type: actions.POST_GPT_SUMMARY_FAILURE,
+      error: e,
+    });
+  }
+}
+function* watchGptSummary() {
+  yield takeLatest(actions.POST_GPT_SUMMARY_REQUEST, postGptSummarySaga);
+}
+
 function* postPromptSaga(action: PayloadAction<'POST_PROMPT_REQUEST', types.TPostPromptReq>) {
   try {
     const result: types.TPostPromptRes = yield call(apis.postPromptApi, action.payload);
@@ -116,6 +137,7 @@ export default function* mainSaga() {
     fork(watchGptRecommend),
     fork(watchGptChain),
     fork(watchGptRelation),
+    fork(watchGptSummary),
     fork(watchPostPrompt),
     fork(watchGetPrompt),
   ]);

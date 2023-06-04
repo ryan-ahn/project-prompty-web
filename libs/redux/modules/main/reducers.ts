@@ -10,9 +10,11 @@ export type TMainReducer = {
   relation: string | null;
   shareLink: string | null;
   shareTitle: string | null;
+  summary: string | null;
   isLoadingRecommend: boolean;
   isLoadingChain: boolean;
   isLoadingQuestion: boolean;
+  isLoadingSummary: boolean;
   isLoadingCreatePrompt: boolean;
 };
 
@@ -22,9 +24,11 @@ export const initialState: TMainReducer = {
   relation: null,
   shareLink: null,
   shareTitle: null,
+  summary: null,
   isLoadingRecommend: false,
   isLoadingChain: false,
   isLoadingQuestion: false,
+  isLoadingSummary: false,
   isLoadingCreatePrompt: false,
 };
 
@@ -38,6 +42,11 @@ const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
     isLoadingChain: false,
     isLoadingQuestion: false,
     isLoadingCreatePrompt: false,
+  }),
+  [actions.INIT_SUMMARY]: state => ({
+    ...state,
+    summary: null,
+    isLoadingSummary: false,
   }),
 
   [actions.SET_STATIC_DATA]: (state, action) => ({
@@ -86,6 +95,20 @@ const mainReducer = createReducer<TMainReducer, Actions>(initialState, {
   [actions.POST_GPT_RELATION_FAILURE]: state => ({
     ...state,
     isLoadingQuestion: false,
+  }),
+
+  [actions.POST_GPT_SUMMARY_REQUEST]: state => ({
+    ...state,
+    isLoadingSummary: true,
+  }),
+  [actions.POST_GPT_SUMMARY_SUCCESS]: (state, action) => ({
+    ...state,
+    summary: action.payload,
+    isLoadingSummary: false,
+  }),
+  [actions.POST_GPT_SUMMARY_FAILURE]: state => ({
+    ...state,
+    isLoadingSummary: false,
   }),
 
   [actions.POST_PROMPT_REQUEST]: state => ({

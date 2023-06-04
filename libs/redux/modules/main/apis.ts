@@ -38,6 +38,16 @@ export async function postGptRelationApi(payload: types.TPostGptRelationReq) {
   }
 }
 
+export async function postGptSummaryApi(payload: types.TPostGptSummaryReq) {
+  try {
+    const response = await axios.post(`${actions.POST_GPT_SUMMARY_URL}`, payload);
+    const result: types.TPostGptSummaryRes = response.data.data;
+    return result;
+  } catch (e) {
+    throw new Error(e as any);
+  }
+}
+
 export async function postPromptApi(payload: types.TPostPromptReq) {
   try {
     const response = await axios.post(`${actions.POST_PROMPT_URL}`, payload);

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { RootState } from '@libs/redux/modules';
 import { CLOSE_MODAL } from '@libs/redux/modules/modal/actions';
+import { INIT_SUMMARY } from '@libs/redux/modules/main/actions';
 
 type TWrapper = {
   open: boolean;
@@ -24,6 +25,7 @@ export default function ModalIndex() {
   // Dynamic
   const MyList = dynamic(() => import('./MyListModal'));
   const ThreadShare = dynamic(() => import('./ThreadShareModal'));
+  const ThreadSummary = dynamic(() => import('./ThreadSummaryModal'));
   // Root State
   const { modalMode, isOpenModal } = useSelector((state: RootState) => state.modal);
   // Ref
@@ -36,6 +38,7 @@ export default function ModalIndex() {
       if (e.target === e.currentTarget) {
         if (modalMode !== 'NOTHING') {
           dispatch({ type: CLOSE_MODAL });
+          dispatch({ type: INIT_SUMMARY });
         }
       }
     },
@@ -51,6 +54,8 @@ export default function ModalIndex() {
         return <MyList />;
       case 'THREAD_SHARE':
         return <ThreadShare />;
+      case 'THREAD_SUMMARY':
+        return <ThreadSummary />;
     }
   }, [modalMode]);
 
