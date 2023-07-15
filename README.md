@@ -11,11 +11,7 @@
 
 # Technical stack
 
-### View
-- Core: Typescript, Nextjs
-- Dependencies: Zustand... 
-
-### Server
-- Core: Node, Express
+- View Core: Typescript, Nextjs
+- Server Core: Node, Express
 - DataBase: MongoDB
 - OpenAPI: ChatGPT
