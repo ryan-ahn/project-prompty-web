@@ -7,7 +7,7 @@
 
 - Summary: ChatGPT로 말 잘하는 개를 만들어보자! (베타버전)
 - Developer: Ryan(github.com/ryan-ahn)
-- Service: [링크](prompty.im)
+- Service: [링크](https://prompty.im)
 
 ## Technical stack
 
