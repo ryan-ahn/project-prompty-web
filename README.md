@@ -14,4 +14,4 @@
 - View Core: Typescript, Nextjs
 - Server Core: Node, Express
 - DataBase: MongoDB
-- OpenAPI: ChatGPT
+- AI System: ChatGPT
