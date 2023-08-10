@@ -5,13 +5,11 @@ module.exports = {
   env: {
     PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST,
     API_HOST: process.env.API_HOST,
-    GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     CHAT_GPT_KEY: process.env.CHAT_GPT_KEY,
+    GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
     GOOGLE_TAG_MANAGER_ID: process.env.GOOGLE_TAG_MANAGER_ID,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-    MONGODB_PROD_URL: process.env.MONGODB_PROD_URL,
-    MONGODB_DEV_URL: process.env.MONGODB_DEV_URL,
   },
   eslint: {
     ignoreDuringBuilds: true,
