@@ -17,6 +17,7 @@ export type TPostGptRecommendReq = {
 export type TPostGptRecommendRes = string;
 
 export type TPostGptChainReq = {
+  character: string;
   assistant: Array<{ prompt: string; answer: string }>;
   input: string;
 };

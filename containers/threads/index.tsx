@@ -29,7 +29,7 @@ type TFocus = {
   attrFocus: boolean;
 };
 
-export default function index({ search, prompt }: TProps) {
+export default function index({ character, search, prompt }: TProps) {
   // Root State
   const { chain, relation, isLoadingChain, isLoadingQuestion } = useSelector(
     (state: RootState) => state.main,
@@ -53,8 +53,8 @@ export default function index({ search, prompt }: TProps) {
 
   const onClickSearch = useCallback(() => {
     if (input.length > 0) {
-      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: chain, input: input } });
-      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: chain, input: input } });
+      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { character: character, assistant: chain, input: input } });
+      dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { character: character, assistant: chain, input: input } });
       setInput('');
     }
   }, [input, chain]);
@@ -62,8 +62,8 @@ export default function index({ search, prompt }: TProps) {
   const onKeyPressEnter = useCallback(
     (e: any) => {
       if (input.length > 0 && e.key === 'Enter') {
-        dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: chain, input: input } });
-        dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: chain, input: input } });
+        dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { character: character, assistant: chain, input: input } });
+        dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { character: character, assistant: chain, input: input } });
         setInput('');
       }
     },
@@ -72,7 +72,7 @@ export default function index({ search, prompt }: TProps) {
 
   const onClickAddChain = useCallback(
     (text: string) => {
-      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: chain, input: text } });
+      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { character: character, assistant: chain, input: text } });
       dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: chain, input: text } });
     },
     [chain],
@@ -129,7 +129,7 @@ export default function index({ search, prompt }: TProps) {
 
   useEffect(() => {
     if (search !== null) {
-      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { assistant: chain, input: search } });
+      dispatch({ type: POST_GPT_CHAIN_REQUEST, payload: { character: character, assistant: chain, input: search } });
       dispatch({ type: POST_GPT_RELATION_REQUEST, payload: { assistant: chain, input: search } });
     }
     if (prompt !== null) {

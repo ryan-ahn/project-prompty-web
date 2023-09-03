@@ -9,10 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
-import { TAG_LIST } from '@common/data';
+import { TAG_LIST, CHARACTER_LIST } from '@common/data';
 import { lottoNum } from '@libs/utils/recursiveFunc';
 import { RootState } from '@libs/redux/modules';
-import LoadingSpinner from '@components/loading/Spinner';
 import { OPEN_MODAL } from '@libs/redux/modules/modal/actions';
 
 type TFocus = {
@@ -32,7 +31,8 @@ export default function MainIndex() {
   const { isLoggedIn, userDetail } = useSelector((state: RootState) => state.user);
   // State
   const [recommendList, setRecommendList] = useState([0, 1, 2]);
-  const [tag, setTag] = useState('지식');
+  const [character, setCharacter] = useState(0);
+  const [tag, setTag] = useState('공감');
   const [input, setInput] = useState<string>('');
   const [focus, setFocus] = useState<boolean>(false);
   // Ref
@@ -48,9 +48,27 @@ export default function MainIndex() {
     [input],
   );
 
+  const onClickChangeCharacter = useCallback((target: string) => {
+    switch (target) {
+      case 'left':
+        if (character === 0) {
+          setCharacter(2)
+        } else {
+          setCharacter(character - 1)
+        }
+      case 'right':
+        if (character === 2) {
+          setCharacter(0)
+        } else {
+          setCharacter(character + 1)
+        }
+    }
+
+  },[character])
+
   const onClickRouteToThreads = useCallback((keyword: string) => {
-    router.push(`/threads/?search=${keyword}`);
-  }, []);
+    router.push(`/threads/?character=${character}&search=${keyword}`);
+  }, [character]);
 
   const onClickRouteToSignin = useCallback(() => {
     router.push('/signin');
@@ -62,17 +80,17 @@ export default function MainIndex() {
 
   const onClickSearch = useCallback(() => {
     if (input.length > 0) {
-      router.push(`/threads/?search=${input}`);
+      router.push(`/threads/?character=${character}&search=${input}`);
     }
-  }, [input]);
+  }, [character, input]);
 
   const onKeyPressEnter = useCallback(
     (e: any) => {
       if (input.length > 0 && e.key === 'Enter') {
-        router.push(`/threads/?search=${input}`);
+        router.push(`/threads/?character=${character}&search=${input}`);
       }
     },
-    [input],
+    [character, input],
   );
 
   const setRandomRecommend = useCallback(() => {
@@ -96,7 +114,7 @@ export default function MainIndex() {
         <h2>{`${index + 1}. ${text}`}</h2>
       </ItemWrapper>
     );
-  }, []);
+  }, [character]);
 
   const renderUser = useCallback(() => {
     switch (isLoggedIn) {
@@ -126,7 +144,7 @@ export default function MainIndex() {
         <ItemBox key={index}>{renderItem(item.text, index)}</ItemBox>
       ));
     }
-  }, [tag, recommendList]);
+  }, [tag, recommendList, character]);
 
   const renderTagList = useCallback(() => {
     return TAG_LIST.map(item => (
@@ -134,19 +152,28 @@ export default function MainIndex() {
         {item.name}
       </TagItem>
     ));
-  }, [tag]);
+  }, [tag, character]);
 
   return (
     <Wrapper>
       <HeaderArea>
-        <img src={'static/logo.png'} alt="logo" />
+        <div>
+          <img src={'static/logo-text-new.png'} alt="logo" />
+        </div>
         {renderUser()}
       </HeaderArea>
       <ContentArea>
         <ContentBolck>
           <TitleBox>
-            <img src={'static/logo.png'} alt="logo" />
-            <h1>PROMPTY</h1>
+            <div onClick={() => onClickChangeCharacter('left')}>
+              <img src='/static/arrow-left.png' alt='arrow'/>
+            </div>
+            <div>
+              <img src={`/static/character-${CHARACTER_LIST[character].name}.png`} alt='character'/>
+            </div>
+            <div onClick={() => onClickChangeCharacter('right')}>
+              <img src='/static/arrow-right.png' alt='arrow'/>
+            </div>
           </TitleBox>
           <SearchBox>
             <InputBox
@@ -170,7 +197,7 @@ export default function MainIndex() {
             <LineHeader>
               <div>
                 <img src={'static/popular.png'} alt="popular" />
-                <p>AI가 추천하는 질문</p>
+                <p>추천 질문</p>
               </div>
               <img src={'static/button-reload.png'} alt="reload" onClick={setRandomRecommend} />
             </LineHeader>
@@ -215,8 +242,12 @@ const HeaderArea = styled.nav`
   border-bottom: 1px solid #202020;
   background-color: #101010;
   z-index: 2;
-  & > img {
-    ${({ theme }) => theme.boxSet('auto', '40px', '0px')};
+  & > div:nth-child(1) {
+    ${({ theme }) => theme.flexSet('center', 'center', 'row')};
+    gap: 10px;
+    & > img {
+      ${({ theme }) => theme.boxSet('auto', '30px', '0px')};
+    }
   }
 `;
 
@@ -239,17 +270,32 @@ const TitleBox = styled.div`
   ${({ theme }) => theme.flexSet('center', 'center', 'row')};
   ${({ theme }) => theme.boxSet('100%', 'auto', '0px')};
   padding: 20px;
-  & > img {
-    ${({ theme }) => theme.boxSet('auto', '60px', '0px')};
-    margin-right: 10px;
-    @media (max-width: 400px) {
-      ${({ theme }) => theme.boxSet('auto', '50px', '0px')};
+  gap: 20px;
+  & > div:nth-child(1) {
+    & > img {
+      ${({ theme }) => theme.boxSet('30px', '30px', '0px')};
+      opacity: 0.5;
+      object-fit: contain;
+      :hover {
+        opacity: 1;
+      }
     }
   }
-  & > h1 {
-    ${({ theme }) => theme.fontSet(50, 700, 70)};
-    @media (max-width: 400px) {
-      ${({ theme }) => theme.fontSet(40, 700, 50)};
+  & > div:nth-child(2) {
+    ${({ theme }) => theme.boxSet('100px', '100px', '0px')};
+    ${({ theme }) => theme.flexSet('center', 'center', 'row')};
+    & > img {
+      ${({ theme }) => theme.boxSet('auto', '100px', '0px')};
+    }
+  }
+  & > div:nth-child(3) {
+    & > img {
+      ${({ theme }) => theme.boxSet('30px', '30px', '0px')};
+      opacity: 0.5;
+      object-fit: contain;
+      :hover {
+        opacity: 1;
+      }
     }
   }
 `;

@@ -10,10 +10,11 @@ import Threads from '@containers/threads';
 import Modal from '@components/modal';
 
 export type TProps = {
+  character: string;
   search: string | null;
   prompt: string | null;
 };
-export default function ThreadsPage({ search, prompt }: TProps) {
+export default function ThreadsPage({ character, search, prompt }: TProps) {
   // Value
   const title = search !== null ? search : '공유 페이지';
   const meta = {
@@ -26,7 +27,7 @@ export default function ThreadsPage({ search, prompt }: TProps) {
   return (
     <SEO meta={meta}>
       <Modal />
-      <Threads search={search} prompt={prompt} />
+      <Threads character={character} search={search} prompt={prompt} />
     </SEO>
   );
 }
@@ -34,6 +35,7 @@ export default function ThreadsPage({ search, prompt }: TProps) {
 export const getServerSideProps = async (context: any) => {
   const search = context.query.search ? context.query.search : null;
   const prompt = context.query.prompt ? context.query.prompt : null;
+  const character = context.query.character ? context.query.character : '0';
   // await fetch(`https://api.prompty.im/v1/prompt/${prompt}`).then(async res => {
   //   await res.json().then(res2 => console.log(res2));
   // });
@@ -41,6 +43,7 @@ export const getServerSideProps = async (context: any) => {
     props: {
       search: search,
       prompt: prompt,
+      character: character
     },
   };
 };
