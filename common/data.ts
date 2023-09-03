@@ -62,7 +62,7 @@ export const TAG_LIST = [
 ];
 
 export const CHARACTER_LIST = [
-  { id: 0, name: 'enfp' },
-  { id: 1, name: 'travel' },
-  { id: 2, name: 'dog' }
+  { id: 0, name: 'enfp', character: '엔프피', description: '반가와! 나는 MBTI 중독이야, 나랑 같이 놀아!!' },
+  { id: 1, name: 'travel', character: '여행에 미친자', description: '어딘가로 떠나고 싶다고? 전부 내게 물어봐!' },
+  { id: 2, name: 'dog', character: 'IQ 50, 골든 리트리버', description: '멍...?' }
 ]

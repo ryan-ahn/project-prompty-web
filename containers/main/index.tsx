@@ -164,6 +164,10 @@ export default function MainIndex() {
       </HeaderArea>
       <ContentArea>
         <ContentBolck>
+          <Character>
+            <p>{CHARACTER_LIST[character].character}</p>
+            <p>{CHARACTER_LIST[character].description}</p>
+          </Character>
           <TitleBox>
             <div onClick={() => onClickChangeCharacter('left')}>
               <img src='/static/arrow-left.png' alt='arrow'/>
@@ -255,7 +259,7 @@ const ContentArea = styled.section`
   ${({ theme }) => theme.flexSet('center', 'center', 'column')};
   ${({ theme }) => theme.boxSet('100%', '100vh', '0px')};
   @media (max-height: 900px) and (max-width: 800px) {
-    ${({ theme }) => theme.boxSet('100%', '900px', '0px')};
+    ${({ theme }) => theme.boxSet('100%', '1050px', '0px')};
   }
 `;
 
@@ -266,6 +270,17 @@ const ContentBolck = styled.div`
   padding: 75px 20px 20px 20px;
 `;
 
+const Character = styled.div`
+${({ theme }) => theme.flexSet('center', 'center', 'column')};
+gap: 6px;
+& > p:nth-child(1) {
+    ${({ theme }) => theme.fontSet(20, 500, 32)};
+  }
+  & > p:nth-child(2) {
+    ${({ theme }) => theme.fontSet(13, 300, 20)};
+
+  }
+`
 const TitleBox = styled.div`
   ${({ theme }) => theme.flexSet('center', 'center', 'row')};
   ${({ theme }) => theme.boxSet('100%', 'auto', '0px')};
