@@ -47,7 +47,7 @@ export default function index() {
     setLoading(true);
     try {
       const response = await axios.post(
-        'http://localhost:8080/v1/pilot/chat/completions',
+        'https://api.prompty.im/v1/pilot/chat/completions',
         { system, assistant, temperature : temperature / 10 , prompt },
       );
       setLoading(false);
