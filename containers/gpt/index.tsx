@@ -4,9 +4,9 @@ import axios from 'axios';
 import { CONTENT_PAGE } from '@common/content';
 
 export default function index() {
-  const [system, setSystem] = useState('');
-  const [assistant, setAssistant] = useState([{ question: '', answer: '' }]);
-  const [temperature, setTemperature] = useState(0.5);
+  const [system, setSystem] = useState<any[]>([{ id: 0, text: '' }]);
+  const [assistant, setAssistant] = useState<any[]>([{ question: '', answer: '' }]);
+  const [temperature, setTemperature] = useState(7);
   const [prompt, setPrompt] = useState('');
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,13 +22,25 @@ export default function index() {
   const promptPlaceHolder = CONTENT_PAGE.gpt.prompt.placeholder;
   const responseLabel = CONTENT_PAGE.gpt.response.label;
   // Function
-  const onClickPlus = () => {
-    const copiedAssistant = [...assistant];
-    copiedAssistant.push({ question: '', answer: '' });
-    setAssistant(copiedAssistant);
+  const onClickPlus = (type: string) => {
+    if (type === 'system') {
+      setSystem([...system, {id: system.length, text: ''}])
+    }
+    if (type === 'assistant') {
+      setAssistant([...assistant, { question: '', answer: ''}]);
+    }
   };
 
+  const onChangeSystem = (e: any, index: number) => {
+    const copiedSystem = [...system];
+    copiedSystem[index].text = e.target.value;
+    setSystem(copiedSystem)
+  }
+
   const onChangeAssistant = (e: any, index: number, type: string) => {
+    const copiedAssistant = [...assistant];
+    copiedAssistant[index][type] = e.target.value;
+    setAssistant(copiedAssistant);
   };
 
   const onClickSubmit = async () => {
@@ -36,7 +48,7 @@ export default function index() {
     try {
       const response = await axios.post(
         'http://localhost:8080/v1/pilot/chat/completions',
-        { system, temperature, prompt },
+        { system, assistant, temperature : temperature / 10 , prompt },
       );
       setLoading(false);
       setResult(response.data.data.answer);
@@ -54,11 +66,18 @@ export default function index() {
         <PromptContainer>
           <InputBox>
             <p>{systemLabel}</p>
-            <input
-              value={system}
-              placeholder={systemPlaceholder}
-              onChange={(e: any) => setSystem(e.target.value)}
-            />
+            {system.map((item, index) => 
+              <div key={index}>
+              <input
+                value={item.text}
+                placeholder={systemPlaceholder}
+                onChange={(e: any) => onChangeSystem(e, index)}
+              />
+                </div>
+            )}
+            <PlusButtonBox onClick={() => onClickPlus('system')}>
+              <p>+</p>
+            </PlusButtonBox>
           </InputBox>
           <InputBox>
             <p>{assistantLabel}</p>
@@ -74,25 +93,29 @@ export default function index() {
                 />
               </div>
             ))}
-            <PlusButtonBox onClick={onClickPlus}>
+            <PlusButtonBox onClick={() => onClickPlus('assistant')}>
               <p>+</p>
             </PlusButtonBox>
           </InputBox>
           <InputBox>
             <p>{temperatureLabel}</p>
-            <input
-              value={temperature}
-              placeholder={temperaturePlaceholder}
-              onChange={(e: any) => setTemperature(Number(e.target.value))}
-            />
+            <div>
+              <input
+                value={temperature}
+                placeholder={temperaturePlaceholder}
+                onChange={(e: any) => setTemperature(Number(e.target.value))}
+              />
+            </div>
           </InputBox>
           <InputBox>
             <p>{promptLabel}</p>
-            <input
-              value={prompt}
-              placeholder={promptPlaceHolder}
-              onChange={(e: any) => setPrompt(e.target.value)}
-            />
+            <div>
+              <input
+                value={prompt}
+                placeholder={promptPlaceHolder}
+                onChange={(e: any) => setPrompt(e.target.value)}
+              />
+            </div>
           </InputBox>
           <SubmitButtonBox onClick={onClickSubmit}>
             <p>전송</p>
@@ -161,11 +184,15 @@ const InputBox = styled.div`
   & > p {
     ${({ theme }) => theme.fontSet(24, 500, 32)};
   }
-  & > input {
-    ${({ theme }) => theme.boxSet('500px', '100%', '20px')};
-    padding: 10px 20px;
-    ${({ theme }) => theme.colorSet('black', 'white')}
-    ${({ theme }) => theme.fontSet(18, 400, 24)};
+  & > div {
+    ${({ theme }) => theme.flexSet('center', 'center', 'column')};
+    gap: 10px;
+    & > input {
+      ${({ theme }) => theme.boxSet('500px', '100%', '20px')};
+      padding: 10px 20px;
+      ${({ theme }) => theme.colorSet('black', 'white')}
+      ${({ theme }) => theme.fontSet(18, 400, 24)};
+    }
   }
 `;
 
