@@ -11,6 +11,7 @@ export default function index() {
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
   // variable
+  const titleText = CONTENT_PAGE.gpt.title.title;
   const systemLabel = CONTENT_PAGE.gpt.system.label;
   const systemPlaceholder = CONTENT_PAGE.gpt.system.placeholder;
   const assistantLabel = CONTENT_PAGE.gpt.assistant.label;
@@ -47,7 +48,7 @@ export default function index() {
     setLoading(true);
     try {
       const response = await axios.post(
-        'https://api.prompty.im/v1/pilot/chat/completions',
+        `${process.env.API_HOST}/pilot/chat/completions`,
         { system, assistant, temperature : temperature / 10 , prompt },
       );
       setLoading(false);
@@ -60,7 +61,7 @@ export default function index() {
   return (
     <Wrapper>
       <HeaderContainer>
-        <h1>Chat Completions</h1>
+        <h1>{titleText}</h1>
       </HeaderContainer>
       <ContentContainer>
         <PromptContainer>

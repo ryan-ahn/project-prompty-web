@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { IProps } from 'pages/signin';
 import { useDispatch } from 'react-redux';
 import { GET_KAKAO_CALLBACK_REQUEST } from '@libs/redux/modules/user/actions';
+import { CONTENT_PAGE } from '@common/content';
 
 export default function index({ code }: IProps) {
   // Value
@@ -17,11 +18,17 @@ export default function index({ code }: IProps) {
   // Hooks
   const router = useRouter();
   const dispatch = useDispatch();
-
+  // Variable
+  const titleText = CONTENT_PAGE.signin.title.title;
+  const kakaoText = CONTENT_PAGE.signin.social.kakao;
+  const googleText = CONTENT_PAGE.signin.social.google;
+  const agreeText = CONTENT_PAGE.signin.description.agree;
+  const policyText = CONTENT_PAGE.signin.description.policy;
+  // Functions
   const onClickRouteToPolicy = useCallback(() => {
     router.push('/policy');
   }, []);
-
+  // Cycle
   useEffect(() => {
     if (code !== null) {
       dispatch({
@@ -32,26 +39,26 @@ export default function index({ code }: IProps) {
       });
     }
   }, [code]);
-
+  // Render
   return (
     <Wrapper>
       <ContentBlock>
         <LogoBox>
           <img src="/static/logo.png" alt="logo" />
-          <p>Login in your account</p>
+          <p>{titleText}</p>
         </LogoBox>
         <SocialLoginButtonBox href={`${API_HOST}/auth/kakao/init`}>
           <img src="/static/kakao.png" alt="button"></img>
-          <p>Kakao</p>
+          <p>{kakaoText}</p>
         </SocialLoginButtonBox>
         <SocialLoginButtonBox>
           <img src="/static/google.png" alt="button"></img>
-          <p>Google</p>
+          <p>{googleText}</p>
         </SocialLoginButtonBox>
         <Line />
         <DescriptionBox>
-          <p>프롬티의 제3자 정보제공 정책에 동의합니다.</p>
-          <p onClick={onClickRouteToPolicy}>개인정보 수집 및 이용약관</p>
+          <p>{agreeText}</p>
+          <p onClick={onClickRouteToPolicy}>{policyText}</p>
         </DescriptionBox>
       </ContentBlock>
     </Wrapper>

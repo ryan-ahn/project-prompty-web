@@ -13,6 +13,7 @@ import { TAG_LIST, CHARACTER_LIST } from '@common/data';
 import { lottoNum } from '@libs/utils/recursiveFunc';
 import { RootState } from '@libs/redux/modules';
 import { OPEN_MODAL } from '@libs/redux/modules/modal/actions';
+import { CONTENT_PAGE } from '@common/content';
 
 type TFocus = {
   attrFocus: boolean;
@@ -40,7 +41,11 @@ export default function MainIndex() {
   // Hooks
   const router = useRouter();
   const dispatch = useDispatch();
-
+  // Variable
+  const bottomText = CONTENT_PAGE.main.bottom.text;
+  const policyText = CONTENT_PAGE.main.bottom.policy;
+  const serviceText = CONTENT_PAGE.main.bottom.service;
+  // Functions
   const onChangeInputText = useCallback(
     (value: string) => {
       setInput(value);
@@ -103,6 +108,7 @@ export default function MainIndex() {
     }
   }, []);
 
+  // Cycle
   useEffect(() => {
     setRandomRecommend();
   }, []);
@@ -212,18 +218,14 @@ export default function MainIndex() {
         <BottomBlock>
           <BottomContent>
             <div>
-              <p>
-                {
-                  '무엇이든 물어보세요! AI가 모두 답변해줍니다.\n연결된 AI 답변을 통해 지식을 확장시켜보아요. 다만, 질문에 개인 정보를 입력하지 마십시오!'
-                }
-              </p>
+              <p>{bottomText}</p>
             </div>
             <div>
               <Link href={'/policy'}>
-                <p>개인정보 처리방침</p>
+                <p>{policyText}</p>
               </Link>
               <Link href={'/service'}>
-                <p>서비스 이용약관</p>
+                <p>{serviceText}</p>
               </Link>
             </div>
           </BottomContent>

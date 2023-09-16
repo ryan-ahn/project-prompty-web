@@ -43,7 +43,7 @@ export default function index({ character, search, prompt }: TProps) {
   // Hooks
   const router = useRouter();
   const dispatch = useDispatch();
-
+  // Functions
   const onChangeInputText = useCallback(
     (value: string) => {
       setInput(value);
@@ -121,6 +121,7 @@ export default function index({ character, search, prompt }: TProps) {
     onClickAddChain(tagHtml.innerHTML);
   }, []);
 
+  // Cycle
   useEffect(() => {
     if (isLoadingChain || isLoadingQuestion) {
       window.scrollTo({ top: 10000, behavior: 'smooth' });
