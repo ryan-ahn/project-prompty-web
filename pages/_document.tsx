@@ -96,18 +96,6 @@ export default class MyDocument extends Document {
               `,
             }}
           />
-          {/* <Script
-            id="GPT"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-              var source = new EventSource("http://localhost:8080/v1/gpt/test");
-              source.onmessage = function(event) {
-                  document.getElementById("result").innerHTML += event.data + "";
-              };
-              `,
-            }}
-          /> */}
         </Head>
         <body>
           <Main />
