@@ -1,7 +1,7 @@
 # Prompty
 > 클릭해서 영상으로 이동
 
-[![Watch the video](https://platform-client-release.s3.ap-northeast-2.amazonaws.com/temp/prompt-back.png)](https://www.youtube.com/watch?v=IBnVf-u92A4&t=8s)
+[![Watch the video](https://storage.googleapis.com/ryan-ahn.appspot.com/public/prompt.png)](https://www.youtube.com/watch?v=IBnVf-u92A4&t=8s)
 
 ## Introduction
 
