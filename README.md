@@ -1,4 +1,4 @@
-# Prompty
+# Prompty Client
 > 클릭해서 영상으로 이동
 
 [![Watch the video](https://storage.googleapis.com/ryan-ahn.appspot.com/public/prompt-service.png)](https://www.youtube.com/watch?v=IBnVf-u92A4&t=8s)
