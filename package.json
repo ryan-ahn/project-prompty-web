@@ -2,16 +2,14 @@
   "name": "prompty",
   "version": "0.1.0",
   "scripts": {
-    "dev": "env-cmd -f .env.dev next dev -p 3000",
-    "build": "env-cmd -f next build",
-    "start": "next start -p $PORT",
-    "deploy": "env-cmd -f .env.prod next build && eb deploy"
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p $PORT"
   },
   "dependencies": {
     "axios": "^0.24.0",
     "babel": "^6.23.0",
     "babel-plugin-styled-components": "^2.1.1",
-    "dotenv": "^10.0.0",
     "env-cmd": "^10.1.0",
     "gts": "^3.1.1",
     "mongoose": "^7.0.4",
